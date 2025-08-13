@@ -147,7 +147,7 @@
     <ClCompile Include="GroundService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="flight_program.txt" />
+    <Text Include="flight_program.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

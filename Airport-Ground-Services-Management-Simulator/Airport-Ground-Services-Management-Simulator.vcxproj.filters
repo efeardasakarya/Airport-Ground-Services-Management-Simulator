@@ -26,6 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="flight_program.txt" />
+    <Text Include="flight_program.csv" />
   </ItemGroup>
 </Project>
