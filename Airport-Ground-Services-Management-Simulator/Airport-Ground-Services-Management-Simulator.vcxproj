@@ -86,6 +86,9 @@
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediates\$(Platform)\$(Configuration\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -140,6 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Airport-Ground-Services-Management-Simulator.cpp" />
+    <ClCompile Include="Flight.cpp" />
+    <ClCompile Include="GroundService.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="flight_program.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
