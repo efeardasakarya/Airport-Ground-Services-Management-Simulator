@@ -28,4 +28,9 @@
   <ItemGroup>
     <Text Include="flight_program.csv" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Flight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

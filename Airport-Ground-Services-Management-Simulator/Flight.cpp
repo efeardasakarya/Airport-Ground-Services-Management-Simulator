@@ -1,37 +1,27 @@
 #include <iostream>
 #include <string>
+#include "Flight.h"
 using namespace std;
 
-class Flight
-{
-private:
-	string flightNumber;
-	string airLine;
-	string landignTime;
 
 
-public:
+
+
+	Flight::Flight(string& FlightNumber, string& AirLine, string& LandingTime)
+	{
+		flightNumber = FlightNumber;
+		airLine = AirLine;
+		landignTime = LandingTime;
+
+	}
 
 		// Get Methods 
-	string getFlightNumber() { return flightNumber; }
-	string getAirLine() { return airLine; }
-	string getLandingTime() { return landignTime; }
+	string& Flight::getFlightNumber() { return flightNumber; }
+	string& Flight::getAirLine() { return airLine; }
+	string& Flight::getLandingTime() { return landignTime; }
 
 		// Set Methods
-	void setFlightNumber(string newFlightNumber) { flightNumber = newFlightNumber; }
-	void setAirLine(string newAirLine) { airLine = newAirLine; }
-	void setLandingTime(string newLandingTime) { landignTime = newLandingTime; }
-
-
-
-
-
-
-protected:
+	void Flight::setFlightNumber(string& newFlightNumber) { flightNumber = newFlightNumber; }
+	void Flight::setAirLine(string& newAirLine) { airLine = newAirLine; }
+	void Flight::setLandingTime(string& newLandingTime) { landignTime = newLandingTime; }
 	
-
-	
-
-
-
-};
