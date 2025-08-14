@@ -1,28 +1,16 @@
-#include <iostream>
 #include <string>
-using namespace std;
-
-class GroundService
-{
-private:
-	string serviceType[2] = { "Baggage" , "Fuel" };
+#include "GroundService.h"
 
 
 
 
+	GroundService::GroundService(std::string ServiceType)
+	{
+		serviceType = ServiceType;
+	}
 
-public:
-
-
-
-
-
-
-protected:
+	
 
 
 
 
-
-
-};

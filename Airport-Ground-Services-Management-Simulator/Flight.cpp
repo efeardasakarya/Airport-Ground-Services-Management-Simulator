@@ -1,13 +1,11 @@
-#include <iostream>
-#include <string>
 #include "Flight.h"
-using namespace std;
 
 
 
 
 
-	Flight::Flight(string& FlightNumber, string& AirLine, string& LandingTime)
+
+	Flight::Flight(std::string& FlightNumber, std::string& AirLine, std::string& LandingTime)
 	{
 		flightNumber = FlightNumber;
 		airLine = AirLine;
@@ -16,12 +14,12 @@ using namespace std;
 	}
 
 		// Get Methods 
-	string& Flight::getFlightNumber() { return flightNumber; }
-	string& Flight::getAirLine() { return airLine; }
-	string& Flight::getLandingTime() { return landignTime; }
+	std::string& Flight::getFlightNumber() { return flightNumber; }
+	std::string& Flight::getAirLine() { return airLine; }
+	std::string& Flight::getLandingTime() { return landignTime; }
 
 		// Set Methods
-	void Flight::setFlightNumber(string& newFlightNumber) { flightNumber = newFlightNumber; }
-	void Flight::setAirLine(string& newAirLine) { airLine = newAirLine; }
-	void Flight::setLandingTime(string& newLandingTime) { landignTime = newLandingTime; }
+	void Flight::setFlightNumber(std::string& newFlightNumber) { flightNumber = newFlightNumber; }
+	void Flight::setAirLine(std::string& newAirLine) { airLine = newAirLine; }
+	void Flight::setLandingTime(std::string& newLandingTime) { landignTime = newLandingTime; }
 	
