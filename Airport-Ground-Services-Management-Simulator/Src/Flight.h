@@ -23,9 +23,9 @@ public:
 
 
 	// Get Methods 
-	std::string getFlightNumber();
-	std::string getAirLine();
-	std::string getLandingTime();
+	 std::string getFlightNumber();
+	 std::string getAirLine();
+	 std::string getLandingTime();
 
 	// Set Methods
 	void setFlightNumber(std::string& newFlightNumber);

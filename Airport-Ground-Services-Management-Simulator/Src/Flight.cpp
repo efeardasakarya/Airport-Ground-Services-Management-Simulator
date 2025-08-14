@@ -1,8 +1,6 @@
 #include "Flight.h"
-
-
-
-
+#include <iostream>
+#include <string>
 
 
 	Flight::Flight(std::string& FlightNumber, std::string& AirLine, std::string& LandingTime)
@@ -14,9 +12,9 @@
 	}
 
 		// Get Methods 
-	std::string& Flight::getFlightNumber() { return flightNumber; }
-	std::string& Flight::getAirLine() { return airLine; }
-	std::string& Flight::getLandingTime() { return landignTime; }
+	 std::string Flight::getFlightNumber() { return flightNumber; }
+	 std::string Flight::getAirLine() { return airLine; }
+	 std::string Flight::getLandingTime() { return landignTime; }
 
 		// Set Methods
 	void Flight::setFlightNumber(std::string& newFlightNumber) { flightNumber = newFlightNumber; }

@@ -1,11 +1,10 @@
 // Airport-Ground-Services-Management-Simulator.cpp 
 
 //General
-
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <istream>
 #include <string>
 
 //Private
@@ -13,6 +12,12 @@
 
 static inline void trim_cr(std::string& s) {
     if (!s.empty() && s.back() == '\r') s.pop_back();
+}
+
+std::ifstream loadFile(std::string fileName)
+{
+    return std::ifstream(fileName);
+    
 }
 
 void printFlights(const std::vector<Flight>& Flights)
@@ -42,7 +47,7 @@ void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights)
                                     // That's better for performance
        
         //Continue from second line
-        while (getline(file, line))
+        while (std::getline(file, line))
         {
             if (line.empty()) continue; // line is empty skip it
 
@@ -52,9 +57,9 @@ void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights)
                                      // this is not a problem for little size files but for bigger projects 
                                     //can cause performance problems
 
-            getline(flightInfos, flightNumber, ',');
-            getline(flightInfos, airLine, ',');
-            getline(flightInfos, landingTime, ',');
+            std::getline(flightInfos, flightNumber, ',');
+            std::getline(flightInfos, airLine, ',');
+            std::getline(flightInfos, landingTime, ',');
 
             
             trim_cr(flightNumber);
@@ -77,17 +82,17 @@ int main()
 {
     //Variables
     
-        std::ifstream file("flight_program.csv");
-        std::vector<Flight> flights;
+    auto flightRecords = loadFile("C:/Users/HP/Desktop/Codes/Airport-Ground-Services-Management-Simulator/Airport-Ground-Services-Management-Simulator/Data/flight_program.csv");     
+    std::vector<Flight> flights;
         
 
-    if (!file.is_open())
+    if (!flightRecords.is_open() )
     {
         std::cout << "File can not opened ";
         return 1;
     }
 
-    createFlightObjects(file,flights);
+    createFlightObjects(flightRecords ,flights);
    
     printFlights(flights);
    
