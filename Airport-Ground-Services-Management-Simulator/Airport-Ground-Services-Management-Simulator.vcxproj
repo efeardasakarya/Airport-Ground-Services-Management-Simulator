@@ -142,16 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Airport-Ground-Services-Management-Simulator.cpp" />
-    <ClCompile Include="Src\Flight.cpp" />
-    <ClCompile Include="Src\GroundService.cpp" />
+    <ClCompile Include="src\Airport-Ground-Services-Management-Simulator.cpp" />
+    <ClCompile Include="src\Flight.cpp" />
+    <ClCompile Include="src\GroundService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Data\flight_program.csv" />
+    <Text Include="data\flight_program.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Flight.h" />
-    <ClInclude Include="Src\GroundService.h" />
+    <ClInclude Include="src\Flight.h" />
+    <ClInclude Include="src\GroundService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
