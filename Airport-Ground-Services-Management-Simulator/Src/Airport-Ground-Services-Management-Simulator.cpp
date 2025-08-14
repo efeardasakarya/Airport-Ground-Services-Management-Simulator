@@ -10,8 +10,13 @@
 //Private
 #include "Flight.h"
 
-static inline void trim_cr(std::string& s) {
-    if (!s.empty() && s.back() == '\r') s.pop_back();
+// For prevent possible bugs because of the '\r' on the lines. Especcially in windows.
+static inline void trim_cr(std::string& s) 
+{
+    if (!s.empty() && s.back() == '\r')
+    {
+        s.pop_back();
+    }
 }
 
 std::ifstream loadFile(std::string fileName)
