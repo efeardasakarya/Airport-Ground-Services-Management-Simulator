@@ -21,21 +21,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Airport-Ground-Services-Management-Simulator.cpp">
+    <ClCompile Include="src\source\Airport-Ground-Services-Management-Simulator.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flight.cpp">
+    <ClCompile Include="src\source\Flight.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GroundService.cpp">
+    <ClCompile Include="src\source\GroundService.cpp">
       <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\source\FlightRecordsManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Flight.h">
+    <ClInclude Include="src\headers\Flight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GroundService.h">
+    <ClInclude Include="src\headers\GroundService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\FlightRecordsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

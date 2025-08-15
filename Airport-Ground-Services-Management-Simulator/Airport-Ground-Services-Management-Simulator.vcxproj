@@ -95,6 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,16 +146,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Airport-Ground-Services-Management-Simulator.cpp" />
-    <ClCompile Include="src\Flight.cpp" />
-    <ClCompile Include="src\GroundService.cpp" />
+    <ClCompile Include="src\source\FlightRecordsManager.cpp" />
+    <ClCompile Include="src\source\Airport-Ground-Services-Management-Simulator.cpp" />
+    <ClCompile Include="src\source\Flight.cpp" />
+    <ClCompile Include="src\source\GroundService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\flight_program.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Flight.h" />
-    <ClInclude Include="src\GroundService.h" />
+    <ClInclude Include="src\headers\Flight.h" />
+    <ClInclude Include="src\headers\FlightRecordsManager.h" />
+    <ClInclude Include="src\headers\GroundService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
