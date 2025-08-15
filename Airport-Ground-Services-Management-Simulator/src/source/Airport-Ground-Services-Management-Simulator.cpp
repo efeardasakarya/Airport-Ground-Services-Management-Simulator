@@ -1,12 +1,4 @@
-// Airport-Ground-Services-Management-Simulator.cpp 
-
-//General
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <string>
-
+// Airport-Ground-Services-Management-Simulator.cpp ,
 
 #include "Flight.h"
 #include "FlightRecordsManager.h"

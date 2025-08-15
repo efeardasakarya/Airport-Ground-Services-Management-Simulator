@@ -1,6 +1,9 @@
 #pragma once
+
 #include "Flight.h"
 #include <vector>
+#include <sstream>
+#include <fstream>
 
 
 class FlightRecordsManager

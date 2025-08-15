@@ -1,6 +1,5 @@
 #include "Flight.h"
-#include <iostream>
-#include <string>
+
 
 
 	Flight::Flight(std::string& FlightNumber, std::string& AirLine, std::string& LandingTime)
