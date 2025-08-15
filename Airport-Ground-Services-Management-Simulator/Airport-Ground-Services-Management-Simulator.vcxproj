@@ -96,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +117,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +136,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +157,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 #include <stdexcept> // runtime_error
+#include <filesystem> // C++17
+
+
 
 	
 
@@ -26,28 +29,43 @@
 
     FlightRecordsManager::~FlightRecordsManager() = default;
     
-       
+
+    bool FlightRecordsManager::checkFile(const std::string& fileName)
+    {
+        return std::filesystem::exists(fileName);
+
+
+    } // Checking gucntion before load 
     
+
+ 
 	std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 	{
+        try
+        {
+            std::ifstream file;
+
+               file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+               file.open(fileName);
+
+               return file;
+
+        }
+
+        catch (const std::ifstream::failure& fail)
+        {
+            std::cerr << "File can not opened. IT could be missing or corrupted" << fail.what() << std::endl;
+            return std::ifstream(); // Boþ ifstream döndür
+        }
+
         
-      
-            std::ifstream file(fileName);
-
-            if (file.is_open())
-            {
-                std::cout << "File is valid" << std::endl;
-                return file;
-            }
-
-            else {
-
-                //Ýf file can not open. function returns null value
-                return std::ifstream(); 
-                
-            }
             
-               
+
+            
+
+                  
+                     
    
 	}
 
@@ -116,30 +134,31 @@
 
 	
 
-    void FlightRecordsManager::InitializeFlightRecordsManager(const std::string fileName)
+    void FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
     {
-        std::ifstream flightRecords = loadFile(fileName);
-
-        try
-        {
-            if (flightRecords.is_open())
+        
+       
+            if (checkFile(fileName) )
             {
-                createFlightObjects(flightRecords, flights);
+                std::ifstream flightRecords = loadFile(fileName);
 
-                printFlights(flights);
+                if (flightRecords.is_open())
+                {
+                    createFlightObjects(flightRecords, flights);
+
+                    printFlights(flights);
+                }
+                
+               
             }
-            else
-            {
-                throw std::runtime_error("File can not open. Please check the file path!");
-            }
-        }
-        catch (const std::exception& e) // This exception provide error messages in runtime
-        {
-            std::cerr << "Hata: " << e.what() << std::endl;
-        }
+            
+                 
+    }
+        
+       
 
 
         
 
-    }
+    
 

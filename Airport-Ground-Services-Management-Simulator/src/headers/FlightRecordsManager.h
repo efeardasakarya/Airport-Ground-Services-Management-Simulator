@@ -21,6 +21,7 @@ private:
 
 	static inline void trimCR(std::string& line);
 
+	bool checkFile(const std::string& fileName);
 	
 
 public:
@@ -30,6 +31,6 @@ FlightRecordsManager();
 
 ~FlightRecordsManager();    // Program sona geldiðinde otomatik olarak çalýþýr
 
-void InitializeFlightRecordsManager(const std::string fileName);
+void InitializeFlightRecordsManager(const std::string& fileName);
 
 };
