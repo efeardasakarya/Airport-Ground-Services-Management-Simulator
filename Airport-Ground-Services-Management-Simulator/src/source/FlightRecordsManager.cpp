@@ -1,7 +1,8 @@
-#pragma once
+
 #include "FlightRecordsManager.h"
 #include <iostream>
 #include <string>
+#include <stdexcept> // runtime_error
 
 	
 
@@ -27,9 +28,27 @@
     
        
     
-	std::ifstream FlightRecordsManager::loadFile(std::string fileName)
+	std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 	{
-		return std::ifstream(fileName);
+        
+      
+            std::ifstream file(fileName);
+
+            if (file.is_open())
+            {
+                std::cout << "File is valid" << std::endl;
+                return file;
+            }
+
+            else {
+
+                //Ýf file can not open. function returns null value
+                return std::ifstream(); 
+                
+            }
+            
+               
+   
 	}
 
    
@@ -99,11 +118,28 @@
 
     void FlightRecordsManager::InitializeFlightRecordsManager(const std::string fileName)
     {
-        auto flightRecords = loadFile(fileName);
+        std::ifstream flightRecords = loadFile(fileName);
 
-        createFlightObjects(flightRecords, flights);
+        try
+        {
+            if (flightRecords.is_open())
+            {
+                createFlightObjects(flightRecords, flights);
 
-        printFlights(flights);
+                printFlights(flights);
+            }
+            else
+            {
+                throw std::runtime_error("File can not open. Please check the file path!");
+            }
+        }
+        catch (const std::exception& e) // This exception provide error messages in runtime
+        {
+            std::cerr << "Hata: " << e.what() << std::endl;
+        }
+
+
+        
 
     }
 

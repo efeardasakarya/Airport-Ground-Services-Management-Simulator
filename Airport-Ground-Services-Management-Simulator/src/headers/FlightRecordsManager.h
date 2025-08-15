@@ -13,7 +13,7 @@ class FlightRecordsManager
 private:
 	std::vector<Flight> flights;
 
-	std::ifstream loadFile(std::string fileName);
+	std::ifstream loadFile(const std::string& fileName);
 
 	void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights);
 

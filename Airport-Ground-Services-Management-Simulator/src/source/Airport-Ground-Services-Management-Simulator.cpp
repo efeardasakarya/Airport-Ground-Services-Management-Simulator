@@ -12,7 +12,7 @@ int main()
 {
 	FlightRecordsManager flightRecordManager;
 
-	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
+	flightRecordManager.InitializeFlightRecordsManager("data/flight_proggram.csv");
 
 
    
