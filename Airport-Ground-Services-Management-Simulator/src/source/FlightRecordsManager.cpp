@@ -32,6 +32,8 @@
 
     bool FlightRecordsManager::checkFile(const std::string& fileName)
     {
+
+
         return std::filesystem::exists(fileName);
 
 
@@ -45,7 +47,7 @@
         {
             std::ifstream file;
 
-               file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+               file.exceptions(std::ifstream::badbit);
 
                file.open(fileName);
 
@@ -53,16 +55,11 @@
 
         }
 
-        catch (const std::ifstream::failure& fail)
+        catch (const std::ios_base::failure& fail)
         {
-            std::cerr << "File can not opened. IT could be missing or corrupted" << fail.what() << std::endl;
+            std::cerr << "File can not opened. It could be missing or corrupted" << fail.what() << std::endl;
             return std::ifstream(); // Boþ ifstream döndür
         }
-
-        
-            
-
-            
 
                   
                      
@@ -137,21 +134,27 @@
     void FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
     {
         
-       
-            if (checkFile(fileName) )
+        
+
+        if (checkFile(fileName))
+        {
+            std::ifstream flightRecords = loadFile(fileName);
+
+            if (flightRecords.is_open())
             {
-                std::ifstream flightRecords = loadFile(fileName);
+                createFlightObjects(flightRecords, flights);
 
-                if (flightRecords.is_open())
-                {
-                    createFlightObjects(flightRecords, flights);
-
-                    printFlights(flights);
-                }
-                
-               
+                printFlights(flights);
             }
+
+
+        }
+        else
+        {
             
+                std::cerr << "File can not be found. Please check the path! " << '\n';
+            }
+                  
                  
     }
         
