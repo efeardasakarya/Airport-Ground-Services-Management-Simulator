@@ -109,7 +109,7 @@
                 continue;
 
             // emplace back create the object and add to the vector. Better performance than push.back()
-            flights.emplace_back(flightNumber, airLine, landingTime);
+            flights.emplace_back( flightNumber, airLine, landingTime );
 
         }
 
