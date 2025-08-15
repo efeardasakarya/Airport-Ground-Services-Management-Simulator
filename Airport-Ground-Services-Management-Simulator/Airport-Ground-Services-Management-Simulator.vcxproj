@@ -152,7 +152,7 @@
     <ClCompile Include="src\source\GroundService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\flight_program.csv" />
+    <Text Include="flight_program.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Flight.h" />
