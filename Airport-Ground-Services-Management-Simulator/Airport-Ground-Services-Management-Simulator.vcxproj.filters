@@ -46,7 +46,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="flight_program.csv">
+    <Text Include="data\flight_program.csv">
       <Filter>Source Files\data</Filter>
     </Text>
   </ItemGroup>
