@@ -1,17 +1,16 @@
 #pragma once
 #include "FlightRecordsManager.h"
+#include <iostream>
+#include <string>
 
-
-
-
-
-	std::vector<Flight> flights;
+	
 
 
 	FlightRecordsManager::FlightRecordsManager()
 	{
 
 	};
+
 
 
     inline void FlightRecordsManager::trimCR(std::string& line)
@@ -24,11 +23,10 @@
 
 
 
-    FlightRecordsManager::~FlightRecordsManager() = default;    // Program sona geldiðinde otomatik olarak çalýþýr
-
-
-
-
+    FlightRecordsManager::~FlightRecordsManager() = default;
+    
+       
+    
 	std::ifstream FlightRecordsManager::loadFile(std::string fileName)
 	{
 		return std::ifstream(fileName);
@@ -99,4 +97,13 @@
 
 	
 
+    void FlightRecordsManager::InitializeFlightRecordsManager(const std::string fileName)
+    {
+        auto flightRecords = loadFile(fileName);
+
+        createFlightObjects(flightRecords, flights);
+
+        printFlights(flights);
+
+    }
 

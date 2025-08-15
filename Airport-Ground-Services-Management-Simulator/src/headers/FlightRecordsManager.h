@@ -13,20 +13,23 @@ class FlightRecordsManager
 private:
 	std::vector<Flight> flights;
 
+	std::ifstream loadFile(std::string fileName);
+
+	void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights);
+
+	void printFlights(const std::vector<Flight>& Flights);
+
+	static inline void trimCR(std::string& line);
+
+	
 
 public:
 
 FlightRecordsManager();
 
 
-~FlightRecordsManager() = default;    // Program sona geldiðinde otomatik olarak çalýþýr
+~FlightRecordsManager();    // Program sona geldiðinde otomatik olarak çalýþýr
 
-std::ifstream loadFile(std::string fileName);
-
-void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights);
-
-void printFlights(const std::vector<Flight>& Flights);
-
-static inline void trimCR(std::string& line);
+void InitializeFlightRecordsManager(const std::string fileName);
 
 };

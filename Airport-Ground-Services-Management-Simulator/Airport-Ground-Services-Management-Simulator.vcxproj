@@ -101,6 +101,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(ProjectDir)data" "$(OutDir)data" /MIR &gt;NUL
+IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,6 +121,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(ProjectDir)data" "$(OutDir)data" /MIR &gt;NUL
+IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,6 +139,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(ProjectDir)data" "$(OutDir)data" /MIR &gt;NUL
+IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -144,6 +159,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>robocopy "$(ProjectDir)data" "$(OutDir)data" /MIR &gt;NUL
+IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\source\FlightRecordsManager.cpp" />
