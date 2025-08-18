@@ -2,7 +2,8 @@
 
 #include "Flight.h"
 #include "FlightRecordsManager.h"
-// For prevent possible bugs because of the '\r' on the lines. Especcially in windows.
+#include "spdlog/spdlog.h"
+
 
 
 
@@ -12,10 +13,10 @@ int main()
 {
 	FlightRecordsManager flightRecordManager;
 
-	flightRecordManager.InitializeFlightRecordsManager("data/flight_prrogram.csv");
+	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
 
-
-   
+    
+ 
 }
 
 
