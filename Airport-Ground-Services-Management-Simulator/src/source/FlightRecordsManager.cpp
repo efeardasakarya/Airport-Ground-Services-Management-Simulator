@@ -57,8 +57,9 @@
 
         catch (const std::ios_base::failure& fail)
         {
+            //  Add logging
             std::cerr << "File can not opened. It could be missing or corrupted" << fail.what() << std::endl;
-            return std::ifstream(); // Boþ ifstream döndür
+            return std::ifstream(); // return null ifstream reference
         }
 
                   
@@ -151,7 +152,7 @@
         }
         else
         {
-            
+            // Add loggings
                 std::cerr << "File can not be found. Please check the path! " << '\n';
             }
                   
