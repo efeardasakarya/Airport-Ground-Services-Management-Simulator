@@ -1,0 +1,44 @@
+#pragma once
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/async.h"
+#include <string>
+
+class GlobalLogger
+{
+private:
+	static GlobalLogger* instance;
+
+	GlobalLogger(); // Singleton constructor must be private against the copy from other classes
+
+	~GlobalLogger(); 
+	
+	
+	// in the future process print and create functions going to be merged.
+
+public:
+	GlobalLogger(const GlobalLogger&) = delete;
+	GlobalLogger& operator=(const GlobalLogger&) = delete;
+
+	static GlobalLogger* getInstance()
+	{
+		if (instance == nullptr)
+		{
+			instance = new GlobalLogger();
+		}
+		return instance;
+	}
+
+
+	void asyncMultiSink(const std::string& LogMessage);
+
+	void printInfo(const std::string& InfoMessage, const std::string& loggerName);
+
+	void printError(const std::string& ErrorMessage, const std::string& loggerName);
+
+			
+
+};
+

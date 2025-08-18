@@ -33,7 +33,7 @@
     <ClCompile Include="src\source\FlightRecordsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\source\Logger.cpp">
+    <ClCompile Include="src\source\GlobalLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="src\headers\FlightRecordsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Logger.h">
+    <ClInclude Include="src\headers\GlobalLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
