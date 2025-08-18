@@ -5,7 +5,7 @@ GlobalLogger* GlobalLogger::instance = nullptr;
 
 GlobalLogger::GlobalLogger()
 {
-
+	
 }
 
 
@@ -17,16 +17,30 @@ GlobalLogger::~GlobalLogger()
 
 
 
+GlobalLogger* GlobalLogger::getInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new GlobalLogger();
+		
+		
+		
+	}
+	return instance;
+}
+
+
+
 void GlobalLogger::printInfo(const std::string& InfoMessage, const std::string& loggerName)
 {
-	spdlog::get(loggerName)->info(InfoMessage);
+	asyncLogger->info(InfoMessage);
 }
 
 
 
 void GlobalLogger::printError(const std::string& ErrorMessage, const std::string& loggerName)
 {
-	spdlog::get(loggerName)->error(ErrorMessage);
+	asyncLogger->error(ErrorMessage);
 }
 
 
@@ -39,10 +53,10 @@ void GlobalLogger::asyncMultiSink()
 	// Create 3 file 10MB. When all files are full automatically delete the oldest file and continue writing.
 
 	std::vector<spdlog::sink_ptr> sinks{ stdout_sink, rotating_sink };
-	auto asyncLogger = std::make_shared<spdlog::async_logger>("asyncLogger", sinks.begin(), sinks.end(), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
+	asyncLogger = std::make_shared<spdlog::async_logger>("asyncLogger", sinks.begin(), sinks.end(), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
 	spdlog::register_logger(asyncLogger);
 
-
+	
 
 }
 

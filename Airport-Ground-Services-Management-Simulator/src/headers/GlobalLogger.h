@@ -10,10 +10,14 @@ class GlobalLogger
 {
 private:
 	static GlobalLogger* instance;
+	std::shared_ptr<spdlog::logger> asyncLogger;
 
 	GlobalLogger(); // Singleton constructor must be private against the copy from other classes
 
 	~GlobalLogger(); 
+
+	
+	
 	
 	
 	// in the future process print and create functions going to be merged.
@@ -22,14 +26,8 @@ public:
 	GlobalLogger(const GlobalLogger&) = delete;
 	GlobalLogger& operator=(const GlobalLogger&) = delete;
 
-	static GlobalLogger* getInstance()
-	{
-		if (instance == nullptr)
-		{
-			instance = new GlobalLogger();
-		}
-		return instance;
-	}
+	static GlobalLogger* getInstance();
+	
 
 
 	void asyncMultiSink();

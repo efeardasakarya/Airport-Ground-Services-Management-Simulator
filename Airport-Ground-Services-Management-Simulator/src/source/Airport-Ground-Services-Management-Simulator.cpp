@@ -16,8 +16,12 @@ int main()
 
 	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
 
-	GlobalLogger::getInstance()->asyncMultiSink();
-	spdlog::get("asyncLogger")->info("AsyncLogger worked");
+	//create Logger
+	auto logger = GlobalLogger::getInstance(); // Create and register named "asyncLogger"
+	logger->asyncMultiSink();
+
+	logger->printInfo("asyncLogger has been created", "asyncLogger");
+
 
 
  
