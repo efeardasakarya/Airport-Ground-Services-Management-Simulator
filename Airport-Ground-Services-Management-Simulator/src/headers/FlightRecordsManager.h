@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Flight.h"
 #include <vector>
 #include <sstream>

@@ -3,6 +3,7 @@
 #include "Flight.h"
 #include "FlightRecordsManager.h"
 #include "spdlog/spdlog.h"
+#include "Logger.h"
 
 
 
@@ -15,7 +16,17 @@ int main()
 
 	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
 
-    
+	Logger logger;
+	logger.createMultiSink();
+
+	Logger asyncLogger;
+	asyncLogger.asyncMultiSink();
+
+	for (int i=0 ; i< 8191; i++)
+	{
+		asyncLogger.printInfo("asyncLogger has been worked", "asyncLogger");
+	}
+
  
 }
 

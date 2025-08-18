@@ -4,7 +4,7 @@
 #include <string>
 #include <stdexcept> // runtime_error
 #include <filesystem> // C++17
-#include "spdlog/spdlog.h"
+#include "Logger.h"
 
 
 
@@ -60,7 +60,7 @@
         catch (const std::ios_base::failure& fail)
         {
             //  Add logging
-            std::cerr << "File can not opened. It could be missing or corrupted" << fail.what() << std::endl;
+            
             spdlog::error("File can not opened. It could be missing or corrupted");
             return std::ifstream(); // return null ifstream reference
         }
@@ -159,10 +159,10 @@
             std::filesystem::path relpath(fileName);
             std::filesystem::path absPath = std::filesystem::absolute(relpath);
 
-
-            // Add loggings
-            spdlog::error("File can not be found. Please check the {}", absPath.string());
-                std::cerr << "File can not be found. Please check the path! " << '\n';
+            Logger logger;
+            logger.createErrorLog("console");
+            logger.printError("File can not be found. Please check the" + absPath.string(), "console");
+            
             }
                   
                  
