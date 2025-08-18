@@ -31,7 +31,7 @@ void GlobalLogger::printError(const std::string& ErrorMessage, const std::string
 
 
 
-void GlobalLogger::asyncMultiSink(const std::string& LogMessage)
+void GlobalLogger::asyncMultiSink()
 {
 	spdlog::init_thread_pool(8192, 1); // A queue for the log messages will write after main program
 	auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt >();

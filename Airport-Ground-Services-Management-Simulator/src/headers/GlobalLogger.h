@@ -32,7 +32,7 @@ public:
 	}
 
 
-	void asyncMultiSink(const std::string& LogMessage);
+	void asyncMultiSink();
 
 	void printInfo(const std::string& InfoMessage, const std::string& loggerName);
 
