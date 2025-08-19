@@ -17,6 +17,19 @@ public:
 	void removeStaffName(int staffNumber);
 
 
+	void seperateLuggagesToPlane(float luggageWeight);
+
+	void seperateLuggagesFromPlane(float luggageWeight);
+
+	bool checkBaggage();
+	
+
+
+private:
+
+	int lightLuggageCounter=0;
+	int midLuggageCounter=0;
+	int heavyLuggageCounter=0;
 
 
 };

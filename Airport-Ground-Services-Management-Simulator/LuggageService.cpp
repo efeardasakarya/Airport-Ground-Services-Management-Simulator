@@ -1,7 +1,7 @@
 #include "LuggageService.h"
 
 
-
+//
 LuggageService::LuggageService(std::map<int, std::string> staffList, int staffs)
 	: GroundService(std::move(staffList), staffs)
 {
@@ -33,4 +33,50 @@ void LuggageService::addStaffName(std::string& name, int staffNumber)
 void LuggageService::removeStaffName(int staffNumber)
 {
 	staffList.erase(staffNumber);
+}
+
+void LuggageService::seperateLuggagesToPlane(float luggageWeight)
+{
+	if (luggageWeight < 3.5)
+	{
+		lightLuggageCounter++;
+	}
+
+	else if (luggageWeight > 9)
+	{
+		midLuggageCounter++;
+	}
+
+	else
+	{
+		heavyLuggageCounter++;
+	}
+
+
+}
+
+void LuggageService::seperateLuggagesFromPlane(float luggageWeight)
+{
+	if (luggageWeight < 3.5)
+	{
+		lightLuggageCounter++;
+	}
+
+	else if (luggageWeight > 9)
+	{
+		midLuggageCounter++;
+	}
+
+	else
+	{
+		heavyLuggageCounter++;
+	}
+}
+
+bool LuggageService::checkBaggage()
+{
+	{
+		return (lightLuggageCounter == 0 && midLuggageCounter == 0 && heavyLuggageCounter == 0);
+
+	}
 }
