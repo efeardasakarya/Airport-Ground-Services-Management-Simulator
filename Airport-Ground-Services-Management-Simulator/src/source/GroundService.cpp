@@ -4,9 +4,9 @@
 
 
 
-	GroundService::GroundService(std::string ServiceType)
+	GroundService::GroundService()
 	{
-		serviceType = ServiceType;
+
 	}
 
 	

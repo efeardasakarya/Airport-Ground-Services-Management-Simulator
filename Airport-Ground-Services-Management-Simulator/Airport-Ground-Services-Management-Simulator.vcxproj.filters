@@ -19,6 +19,9 @@
     <Filter Include="Source Files\data">
       <UniqueIdentifier>{8c669968-ce7e-4e07-8dae-cb6b32ba6f10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\Services">
+      <UniqueIdentifier>{597c750e-d366-434c-9120-45bf9410af0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\source\Airport-Ground-Services-Management-Simulator.cpp">
@@ -31,9 +34,18 @@
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="src\source\FlightRecordsManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="src\source\GlobalLogger.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="LuggageService.cpp">
+      <Filter>Source Files\src\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="FuelService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CleaningService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\GlobalLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuggageService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FuelService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CleaningService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

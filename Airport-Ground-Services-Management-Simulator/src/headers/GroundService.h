@@ -6,11 +6,11 @@
 class GroundService
 {
 private:
-	std::string serviceType;
+	
 
 public:
 
-	GroundService(std::string ServiceType);
+	GroundService();
 
 	~GroundService()  = default;
 

@@ -123,10 +123,10 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
     {
         for (auto f : Flights)
         {
-            std::cout << f.getAirLine() << "|";
-            std::cout << f.getFlightNumber() << "|";
-            std::cout << f.getLandingTime() << '\n';
-
+           // std::cout << f.getAirLine() << "|";
+           //std::cout << f.getFlightNumber() << "|";
+           //std::cout << f.getLandingTime() << '\n';
+            globalLogger->printInfo(f.getAirLine() + "|" + f.getFlightNumber() + "|" + f.getLandingTime()  );
 
         }
     }
