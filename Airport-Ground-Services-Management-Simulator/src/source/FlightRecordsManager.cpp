@@ -98,8 +98,8 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
             
 
 
-            std::getline(flightInfos, flightNumber, ',');
             std::getline(flightInfos, airLine, ',');
+            std::getline(flightInfos, flightNumber, ',');
             std::getline(flightInfos, landingTime, ',');
 
             trimCR(flightNumber);
