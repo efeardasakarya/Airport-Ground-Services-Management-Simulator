@@ -3,18 +3,17 @@
 #include <iostream>
 #include <string>
 #include <stdexcept> // runtime_error
-#include <filesystem> // C++17
+#include <filesystem> // C++17 
 #include "GlobalLogger.h"
 
-
-
-
+GlobalLogger* globalLogger = GlobalLogger::getInstance();
 	
 
 
 	FlightRecordsManager::FlightRecordsManager()
 	{
-
+        
+        
 	};
 
 
@@ -39,28 +38,28 @@
         return std::filesystem::exists(fileName);
 
 
-    } // Checking gucntion before load 
+    } // Checking fucntion before load 
     
 
  
 	std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 	{
+        
         try
         {
-            std::ifstream file;
-
-               file.exceptions(std::ifstream::badbit);
-
-               file.open(fileName);
-
-               return file;
+            
+               std::ifstream file;  //open file on reading mode
+               file.exceptions(std::ifstream::badbit); // check the file. If don't open throw an exception
+               file.open(fileName); 
+               return file; //açýlan dosyayý döndür
 
         }
 
         catch (const std::ios_base::failure& fail)
         {
             //  Add logging here
-           
+            globalLogger->printError("The file cannot be opened; it may be corrupted or deleted.");
+            
             return std::ifstream(); // return null ifstream reference
         }
 
@@ -141,24 +140,35 @@
 
         if (checkFile(fileName))
         {
-            std::ifstream flightRecords = loadFile(fileName);
+            
+            
 
+            std::ifstream flightRecords = loadFile(fileName);
+            globalLogger->printInfo("File is ready to load");
+
+            
             if (flightRecords.is_open())
             {
+                
+                globalLogger->printInfo("File loaded. Please check the console for flight informations");
+
                 createFlightObjects(flightRecords, flights);
 
                 printFlights(flights);
+
+                
             }
+            
 
-
+            
         }
         else
         {
-
+            
             std::filesystem::path relpath(fileName);
             std::filesystem::path absPath = std::filesystem::absolute(relpath);
 
-            //Add logger here
+            globalLogger->printError("File not found. Please check:" + absPath.string() );
             
             }
                   

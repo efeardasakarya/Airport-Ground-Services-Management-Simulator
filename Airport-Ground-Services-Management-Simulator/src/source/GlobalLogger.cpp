@@ -31,14 +31,14 @@ GlobalLogger* GlobalLogger::getInstance()
 
 
 
-void GlobalLogger::printInfo(const std::string& InfoMessage, const std::string& loggerName)
+void GlobalLogger::printInfo(const std::string& InfoMessage )
 {
 	asyncLogger->info(InfoMessage);
 }
 
 
 
-void GlobalLogger::printError(const std::string& ErrorMessage, const std::string& loggerName)
+void GlobalLogger::printError(const std::string& ErrorMessage)
 {
 	asyncLogger->error(ErrorMessage);
 }
@@ -48,11 +48,11 @@ void GlobalLogger::printError(const std::string& ErrorMessage, const std::string
 void GlobalLogger::asyncMultiSink()
 {
 	spdlog::init_thread_pool(8192, 1); // A queue for the log messages will write after main program
-	auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt >();
-	auto rotating_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("mylog.txt", 1024 * 1024 * 10, 3);
-	// Create 3 file 10MB. When all files are full automatically delete the oldest file and continue writing.
+	auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt >();
+	auto dailySink = std::make_shared<spdlog::sinks::daily_file_sink_mt>("logs/daidaily.txt", 0, 0, false, 30);
+	
 
-	std::vector<spdlog::sink_ptr> sinks{ stdout_sink, rotating_sink };
+	std::vector<spdlog::sink_ptr> sinks { stdoutSink, dailySink };
 	asyncLogger = std::make_shared<spdlog::async_logger>("asyncLogger", sinks.begin(), sinks.end(), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
 	spdlog::register_logger(asyncLogger);
 

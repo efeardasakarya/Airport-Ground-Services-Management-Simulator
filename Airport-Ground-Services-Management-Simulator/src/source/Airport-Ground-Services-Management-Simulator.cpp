@@ -14,13 +14,16 @@ int main()
 {
 	FlightRecordsManager flightRecordManager;
 
-	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
-
 	//create Logger
 	auto logger = GlobalLogger::getInstance(); // Create and register named "asyncLogger"
 	logger->asyncMultiSink();
+	logger->printInfo("asyncLogger has been created");
 
-	logger->printInfo("asyncLogger has been created", "asyncLogger");
+
+	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
+
+	
+	
 
 
 

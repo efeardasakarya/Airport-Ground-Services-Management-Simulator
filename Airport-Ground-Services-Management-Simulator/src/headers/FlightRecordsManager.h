@@ -21,6 +21,8 @@ private:
 	static inline void trimCR(std::string& line);
 
 	bool checkFile(const std::string& fileName);
+
+	
 	
 
 public:

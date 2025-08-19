@@ -3,6 +3,7 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/async.h"
 #include <string>
 
@@ -32,9 +33,9 @@ public:
 
 	void asyncMultiSink();
 
-	void printInfo(const std::string& InfoMessage, const std::string& loggerName);
+	void printInfo(const std::string& InfoMessage);
 
-	void printError(const std::string& ErrorMessage, const std::string& loggerName);
+	void printError(const std::string& ErrorMessage);
 
 			
 
