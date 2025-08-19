@@ -1,10 +1,17 @@
 #include "CleaningService.h"
+#include <iostream>
+
 
 CleaningService::CleaningService(std::map<int, std::string> staffList, int staffs) 
 	: GroundService(std::move(staffList), staffs)
 {
 	
 }
+
+
+
+
+
 
 void CleaningService::DailyCleaning(const std::string& flightNumber)
 {
@@ -21,25 +28,25 @@ void CleaningService::YearlyCleaning(const std::string& flightNumber)
 	std::cout << "Yearly procedure is running" << '\n';
 }
 
-int CleaningService::EmergencyCleaning(const std::string& flightNumber , int situationImportance )  //1-most 5-Less
+int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance imp)  // Importance enum is in the CleaningService.h
 {
 	int cleanerStaffArrivalTime=0;
 
-	switch (situationImportance)
+	switch (imp)
 	{
-	case 1:
+	case Critical:
 		cleanerStaffArrivalTime = 10;
 		break;
-	case 2:
+	case Emergency:
 		cleanerStaffArrivalTime = 15;
 		break;
-	case 3:
+	case Threat:
 		cleanerStaffArrivalTime = 20;
 		break;
-	case 4:
+	case Medium:
 		cleanerStaffArrivalTime = 30;
 		break;
-	case 5:
+	case Low:
 		cleanerStaffArrivalTime = 40;
 		break;
 

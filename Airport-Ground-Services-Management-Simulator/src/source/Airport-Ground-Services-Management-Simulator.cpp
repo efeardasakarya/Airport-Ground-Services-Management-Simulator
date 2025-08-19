@@ -4,7 +4,7 @@
 #include "FlightRecordsManager.h"
 #include "spdlog/spdlog.h"
 #include "GlobalLogger.h"
-
+#include "CleaningService.h"
 
 
 
@@ -21,11 +21,6 @@ int main()
 
 
 	flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
-
-	
-	
-
-
 
  
 }

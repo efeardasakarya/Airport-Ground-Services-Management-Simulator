@@ -6,6 +6,15 @@
 class CleaningService :public GroundService
 {
 public:
+
+	enum Importance {
+		Critical,    // 0
+		Threat,  // 1
+		Emergency,  // 2
+		Medium,  // 3
+		Low    //4
+	};
+
 	CleaningService(std::map<int, std::string> staffList, int staffs);
 
 	void DailyCleaning(const std::string& flightNumber);
@@ -17,7 +26,7 @@ public:
 	void YearlyCleaning(const std::string& flightNumber);
 	
 
-	int EmergencyCleaning(const std::string& flightNumber, int situationImportance);  //1-most 5-Less
+	int EmergencyCleaning(const std::string& flightNumber, Importance imp);  
 
 
 	//Getters
