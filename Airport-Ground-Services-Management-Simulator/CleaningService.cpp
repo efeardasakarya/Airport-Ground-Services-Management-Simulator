@@ -56,12 +56,9 @@ const int& CleaningService::getStaffs()
 	return staffs;
 }
 
-const std::string& CleaningService::getStaffNames()
+std::string& CleaningService::getStaffNames(int staffNumber)
 {
-	for (std::string name : staffNames)
-	{
-		std::cout << name << '\n';
-	}
+	return staffList[staffNumber];
 }
 
 const int& CleaningService::getCleaningTime()
@@ -79,19 +76,14 @@ void CleaningService::setStafs(int StaffNumber)
 	staffs = StaffNumber;
 }
 
-void CleaningService::addStaffName(std::string& name)
+void CleaningService::addStaffName(std::string& name , int staffNumber)
 	{
-		staffNames.push_back(name);
+	staffList[staffNumber] = name;
 	}
 
-void CleaningService::removeStaffName(std::string& name)
+void CleaningService::removeStaffName(int staffNumber)
 	{
-		for (auto temp : staffNames)
-		{
-			auto iterator = std::find(staffNames.begin(), staffNames.end(), name);
-			staffNames.erase(iterator);
-
-		}
+		staffList.erase(staffNumber)
 	}
 
 void CleaningService::setCleaningTime(int cleaningTime)

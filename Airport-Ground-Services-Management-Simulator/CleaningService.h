@@ -22,28 +22,22 @@ public:
 
 	//Getters
 	const int& getStaffs();
-	const std::string& getStaffNames();
+	std::string& getStaffNames(int staffNumber);
 	const int& getCleaningTime();
 	
 
 	//Setters
 	void setStafs(int StaffNumber);
 	
-	void addStaffName(std::string& name);
+	void addStaffName(std::string& name , int staffNumber);
 
-	void removeStaffName(std::string& name);
+	void removeStaffName(int staffNumber);
 
 	void setCleaningTime(int cleaningTime);
 
-
-
-	
 private:
 
-	int staffs=0;
-
-	std::vector<std::string> staffNames;
-
+	
 	int cleaningTime=0;
 
 
