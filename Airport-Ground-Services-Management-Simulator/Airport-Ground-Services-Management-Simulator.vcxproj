@@ -179,8 +179,8 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\source\CleaningService.cpp" />
-    <ClCompile Include="FuelService.cpp" />
-    <ClCompile Include="LuggageService.cpp" />
+    <ClCompile Include="src\source\FuelService.cpp" />
+    <ClCompile Include="src\source\LuggageService.cpp" />
     <ClCompile Include="src\source\GlobalLogger.cpp" />
     <ClCompile Include="src\source\FlightRecordsManager.cpp" />
     <ClCompile Include="src\source\Airport-Ground-Services-Management-Simulator.cpp" />
@@ -192,8 +192,8 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\CleaningService.h" />
-    <ClInclude Include="FuelService.h" />
-    <ClInclude Include="LuggageService.h" />
+    <ClInclude Include="src\headers\FuelService.h" />
+    <ClInclude Include="src\headers\LuggageService.h" />
     <ClInclude Include="src\headers\GlobalLogger.h" />
     <ClInclude Include="src\headers\Flight.h" />
     <ClInclude Include="src\headers\FlightRecordsManager.h" />
