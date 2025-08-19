@@ -1,8 +1,9 @@
 #include "CleaningService.h"
 
-CleaningService::CleaningService()
+CleaningService::CleaningService(std::map<int, std::string> staffList, int staffs) 
+	: GroundService(std::move(staffList), staffs)
 {
-
+	
 }
 
 void CleaningService::DailyCleaning(const std::string& flightNumber)
@@ -58,7 +59,7 @@ const int& CleaningService::getStaffs()
 
 std::string& CleaningService::getStaffNames(int staffNumber)
 {
-	return staffList[staffNumber];
+	return staffList.at(staffNumber);
 }
 
 const int& CleaningService::getCleaningTime()
@@ -83,7 +84,7 @@ void CleaningService::addStaffName(std::string& name , int staffNumber)
 
 void CleaningService::removeStaffName(int staffNumber)
 	{
-		staffList.erase(staffNumber)
+	staffList.erase(staffNumber);
 	}
 
 void CleaningService::setCleaningTime(int cleaningTime)

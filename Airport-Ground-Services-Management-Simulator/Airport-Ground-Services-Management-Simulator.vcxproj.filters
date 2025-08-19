@@ -45,7 +45,7 @@
     <ClCompile Include="FuelService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CleaningService.cpp">
+    <ClCompile Include="src\source\CleaningService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClInclude Include="FuelService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CleaningService.h">
+    <ClInclude Include="src\headers\CleaningService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

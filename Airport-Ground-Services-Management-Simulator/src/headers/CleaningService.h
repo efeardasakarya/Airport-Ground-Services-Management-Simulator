@@ -6,7 +6,7 @@
 class CleaningService :public GroundService
 {
 public:
-	CleaningService();
+	CleaningService(std::map<int, std::string> staffList, int staffs);
 
 	void DailyCleaning(const std::string& flightNumber);
 	
@@ -28,11 +28,8 @@ public:
 
 	//Setters
 	void setStafs(int StaffNumber);
-	
 	void addStaffName(std::string& name , int staffNumber);
-
 	void removeStaffName(int staffNumber);
-
 	void setCleaningTime(int cleaningTime);
 
 private:
