@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <map>
 
 
 class FlightRecordsManager
@@ -10,13 +11,13 @@ class FlightRecordsManager
 
 
 private:
-	std::vector<Flight> flights;
+	std::map< std::string ,Flight > flights;
 
 	std::ifstream loadFile(const std::string& fileName);
 
-	void createFlightObjects(std::ifstream& file, std::vector<Flight>& flights);
+	void createFlightObjects(std::ifstream& file, std::map<std::string , Flight>& flights);
 
-	void printFlights(const std::vector<Flight>& Flights);
+	void printFlights(const std::map<std::string,Flight>& flights);
 
 	static inline void trimCR(std::string& line);
 
