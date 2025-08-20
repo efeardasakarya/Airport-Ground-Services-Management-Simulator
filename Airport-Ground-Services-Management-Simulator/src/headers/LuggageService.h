@@ -1,6 +1,16 @@
 #pragma once
 #include "GroundService.h"
 
+enum LuggageTasks
+{
+	LoadLuggage,
+	UnloadLuggage,
+	TransportLuggage
+
+};
+
+
+
 class LuggageService :public GroundService
 {
 public:
@@ -23,7 +33,7 @@ public:
 
 	bool checkBaggage();
 	
-
+	LuggageTasks luggageCrewTask(int crewID);
 
 private:
 

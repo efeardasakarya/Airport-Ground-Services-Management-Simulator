@@ -7,6 +7,7 @@
 		flightNumber = FlightNumber;
 		airLine = AirLine;
 		landignTime = LandingTime;
+		demandingService = None;
 
 	}
 

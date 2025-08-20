@@ -80,3 +80,24 @@ bool LuggageService::checkBaggage()
 
 	}
 }
+
+LuggageTasks LuggageService::luggageCrewTask(int crewID)
+{
+	if (crewID < 4)
+	{
+		return LoadLuggage;
+	}
+
+
+	else if (crewID > 6)
+	{
+		return UnloadLuggage;
+	}
+
+	else
+	{
+		return TransportLuggage;
+	}
+
+
+}

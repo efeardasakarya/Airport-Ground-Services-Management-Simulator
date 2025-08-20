@@ -6,7 +6,8 @@ enum Service
 {
 	Lugagge,    //0
 	Clenaning,  //1
-	Fuel		//2
+	Fuel,		//2
+	None
 
 
 };

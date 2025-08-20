@@ -1,5 +1,18 @@
 #pragma once
 #include "GroundService.h"
+
+enum FuelTasks
+{
+	RefuelPlane,
+	RefuelTank,
+	TransportFuel
+	
+};
+
+
+
+
+
 class FuelService :public GroundService
 {
 public:
@@ -17,6 +30,9 @@ public:
 	
 	void fuelSupply(float fuelAmount);
 	void transferFuel(float fuelAmount , const std::string& flightNumber);
+
+
+	FuelTasks fuelCrewTask(int crewID);
 
 private:
 	float currentFuelAmount = 0;

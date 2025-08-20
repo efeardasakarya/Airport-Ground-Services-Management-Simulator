@@ -72,7 +72,7 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
 
     std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::ifstream& file, std::map<std::string, Flight>& flights)
     {
-        //if first line is empty kill the function
+        //if first line is empty kill the function and skip the header in .cvs
         std::string line;
         if (!std::getline(file, line)) return flights;
 

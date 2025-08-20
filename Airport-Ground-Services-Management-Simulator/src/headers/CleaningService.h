@@ -3,6 +3,22 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+enum CleaningTasks
+{
+	Daily,
+	Weekly,
+	Monthly,
+	Yearly,
+	
+
+
+
+
+
+};
+
+
 class CleaningService :public GroundService
 {
 public:
@@ -17,13 +33,6 @@ public:
 
 	CleaningService(std::map<int, std::string> staffList, int staffs);
 
-	void DailyCleaning(const std::string& flightNumber);
-	
-
-	void MonthlyCleaning(const std::string& flightNumber);
-	
-
-	void YearlyCleaning(const std::string& flightNumber);
 	
 
 	int EmergencyCleaning(const std::string& flightNumber, Importance imp);  
@@ -40,6 +49,34 @@ public:
 	void addStaffName(std::string& name , int staffNumber);
 	void removeStaffName(int staffNumber);
 	void setCleaningTime(int cleaningTime);
+
+	CleaningTasks cleaningCrewTask(int crewID)
+	{
+		if (crewID < 3)
+		{
+			return Daily;
+		}
+
+		else if (crewID < 5)
+		{
+			return Weekly;
+		}
+		else if (crewID < 8)
+		{
+			return Monthly;
+		}
+		else 
+		{
+			return Yearly;
+		}
+
+
+	}
+
+
+
+
+
 
 private:
 

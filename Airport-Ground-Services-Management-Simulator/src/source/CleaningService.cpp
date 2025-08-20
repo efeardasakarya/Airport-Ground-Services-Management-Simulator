@@ -13,20 +13,8 @@ CleaningService::CleaningService(std::map<int, std::string> staffList, int staff
 
 
 
-void CleaningService::DailyCleaning(const std::string& flightNumber)
-{
-	std::cout << "Daily procedure is running"<<'\n';
-}
 
-void CleaningService::MonthlyCleaning(const std::string& flightNumber)
-{
-	std::cout << "Monthly procedure is running" << '\n';
-}
 
-void CleaningService::YearlyCleaning(const std::string& flightNumber)
-{
-	std::cout << "Yearly procedure is running" << '\n';
-}
 
 int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance imp)  // Importance enum is in the CleaningService.h
 {
