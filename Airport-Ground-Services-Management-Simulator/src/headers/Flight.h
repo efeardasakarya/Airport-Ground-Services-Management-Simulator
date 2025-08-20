@@ -1,15 +1,30 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <memory>
+enum Service
+{
+	Lugagge,    //0
+	Clenaning,  //1
+	Fuel		//2
 
+
+};
 
 
 class Flight
 {
+	
+
+
+
+
 private:
 	std::string flightNumber;
 	std::string airLine;
 	std::string landignTime;
+	Service demandingService;
+
 
 
 public:
@@ -23,15 +38,16 @@ public:
 
 
 	// Get Methods 
-	 std::string getFlightNumber();
-	 std::string getAirLine();
-	 std::string getLandingTime();
+	const std::string& getFlightNumber() const ;
+	const std::string& getAirLine() const ;
+	const std::string& getLandingTime() const;
+	Service getDemandingService();
 
 	// Set Methods
-	void setFlightNumber(std::string& newFlightNumber);
-	void setAirLine(std::string& newAirLine);
-	void setLandingTime(std::string& newLandingTime);
-
+	void setFlightNumber(const std::string& newFlightNumber);
+	void setAirLine(const std::string& newAirLine);
+	void setLandingTime(const std::string& newLandingTime);
+	void setDemandingService(const Service sr);
 
 
 

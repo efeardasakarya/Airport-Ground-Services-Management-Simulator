@@ -11,12 +11,13 @@
 	}
 
 		// Get Methods 
-	 std::string Flight::getFlightNumber() { return flightNumber; }
-	 std::string Flight::getAirLine() { return airLine; }
-	 std::string Flight::getLandingTime() { return landignTime; }
+	const std::string& Flight::getFlightNumber() const { return flightNumber; }
+	 const std::string& Flight::getAirLine() const { return airLine; }
+	 const std::string& Flight::getLandingTime() const { return landignTime; }
+	 Service Flight::getDemandingService() { return demandingService; }
 
 		// Set Methods
-	void Flight::setFlightNumber(std::string& newFlightNumber) { flightNumber = newFlightNumber; }
-	void Flight::setAirLine(std::string& newAirLine) { airLine = newAirLine; }
-	void Flight::setLandingTime(std::string& newLandingTime) { landignTime = newLandingTime; }
-	
+	void Flight::setFlightNumber(const std::string& newFlightNumber) { flightNumber = newFlightNumber; }
+	void Flight::setAirLine(const std::string& newAirLine) { airLine = newAirLine; }
+	void Flight::setLandingTime(const std::string& newLandingTime) { landignTime = newLandingTime; }
+	void Flight::setDemandingService(Service sr) { demandingService = sr; }

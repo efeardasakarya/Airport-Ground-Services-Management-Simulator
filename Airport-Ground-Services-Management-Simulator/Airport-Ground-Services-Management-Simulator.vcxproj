@@ -97,8 +97,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,8 +119,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,8 +139,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,8 +161,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Codes\Airport-Ground-Services-Management-Simulator\Airport-Ground-Services-Management-Simulator\src\headers</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

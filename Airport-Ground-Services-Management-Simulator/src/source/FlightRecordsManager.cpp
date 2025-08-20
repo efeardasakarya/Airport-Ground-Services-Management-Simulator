@@ -70,11 +70,11 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
 
    
 
-    void FlightRecordsManager::createFlightObjects(std::ifstream& file, std::map<std::string, Flight>& flights)
+    std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::ifstream& file, std::map<std::string, Flight>& flights)
     {
         //if first line is empty kill the function
         std::string line;
-        if (!std::getline(file, line)) return;
+        if (!std::getline(file, line)) return flights;
 
         //Local Variables
         std::string flightNumber;
@@ -98,8 +98,8 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
             
 
 
-            std::getline(flightInfos, airLine, ',');
             std::getline(flightInfos, flightNumber, ',');
+            std::getline(flightInfos, airLine, ',');
             std::getline(flightInfos, landingTime, ',');
 
             trimCR(flightNumber);
@@ -111,9 +111,10 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
                 continue;
 
             // emplace back create the object and add to the vector. Better performance than push.back()
-            flights[flightNumber] = Flight(flightNumber, airLine, landingTime);
-
+             flights.try_emplace(flightNumber, flightNumber, airLine, landingTime);
+             // try_emplace( std::string , Flight) = flightNumber= std:: string  flightNumber, airLine, landingTime = Flight)
         }
+        return flights;
 
     }
 
@@ -121,12 +122,11 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
     
     void FlightRecordsManager::printFlights(const std::map<std::string, Flight>& flights)
     {
-        for (auto f : flights)
+        for (const auto& [_,value] : flights)
         {
-           // std::cout << f.getAirLine() << "|";
-           //std::cout << f.getFlightNumber() << "|";
-           //std::cout << f.getLandingTime() << '\n';
-            globalLogger->printInfo( + "|" + f.getFlightNumber() + "|" + f.getLandingTime()  );
+           
+            
+            globalLogger->printInfo(value.getFlightNumber() + "|" + value.getAirLine() + "|" + value.getLandingTime() );
 
         }
     }
@@ -134,7 +134,7 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
 
 	
 
-    void FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
+    std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
     {
         
         
@@ -153,9 +153,11 @@ GlobalLogger* globalLogger = GlobalLogger::getInstance();
                 
                 globalLogger->printInfo("File loaded. Please check the console for flight informations");
 
-                createFlightObjects(flightRecords, flights);
+                std::map<std::string, Flight>& local= createFlightObjects(flightRecords, flights); // keep flight records on a local
 
                 printFlights(flights);
+
+                return local;
 
                 
             }

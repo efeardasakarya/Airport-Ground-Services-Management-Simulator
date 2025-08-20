@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <map>
+#include <memory>
 
 
 class FlightRecordsManager
@@ -15,7 +16,7 @@ private:
 
 	std::ifstream loadFile(const std::string& fileName);
 
-	void createFlightObjects(std::ifstream& file, std::map<std::string , Flight>& flights);
+	std::map<std::string, Flight>& createFlightObjects(std::ifstream& file, std::map<std::string , Flight>& flights);
 
 	void printFlights(const std::map<std::string,Flight>& flights);
 
@@ -33,6 +34,6 @@ FlightRecordsManager();
 
 ~FlightRecordsManager();    // Program sona geldiðinde otomatik olarak çalýþýr
 
-void InitializeFlightRecordsManager(const std::string& fileName);
+std::map<std::string, Flight>& InitializeFlightRecordsManager(const std::string& fileName);
 
 };
