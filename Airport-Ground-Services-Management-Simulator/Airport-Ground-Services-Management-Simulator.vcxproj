@@ -184,6 +184,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
     <ClCompile Include="src\source\Airport-Ground-Services-Management-Simulator.cpp" />
     <ClCompile Include="src\source\Flight.cpp" />
     <ClCompile Include="src\source\GroundService.cpp" />
+    <ClCompile Include="TakeoffHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\flight_program.csv" />
@@ -199,6 +200,7 @@ IF %ERRORLEVEL% LSS 8 (exit /B 0) ELSE (exit /B %ERRORLEVEL%)
     <ClInclude Include="src\headers\FlightRecordsManager.h" />
     <ClInclude Include="src\headers\GroundService.h" />
     <ClInclude Include="src\headers\Service.h" />
+    <ClInclude Include="TakeoffHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

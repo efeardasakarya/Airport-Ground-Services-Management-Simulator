@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "Flight.h"
 #include "FlightRecordsManager.h"
 #include "spdlog/spdlog.h"
@@ -8,42 +9,28 @@
 #include <map>
 
 
-class LandingHandler
+class TakeoffHandler
 {
-
 private:
 
 	FlightRecordsManager flightRecordManager;
 
 	ServiceHandler serviceHandler;
 
-	Flight* landingFlight = nullptr;
+	Flight* takeoffFlight = nullptr;
 
-	int remainLandTime = 10;
+	int remainTakeoffTime = 10;
 
-	bool landingLoop = true;
+	bool takeoffLoop = true;
 
 	GlobalLogger* logger;
-	
-	
+
+
 
 public:
 
-	LandingHandler();
-	
-	void landingProcess(std::map<std::string, Flight>& flightRecords);
+	TakeoffHandler();
 
-
-
-
-
+	void takeoffProcess(std::map<std::string, Flight>& flightRecords);
 };
-
-
-
-
-
-
-
-
 

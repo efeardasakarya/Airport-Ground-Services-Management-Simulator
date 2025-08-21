@@ -2,7 +2,7 @@
 
 LandingHandler::LandingHandler()
 {
-
+	logger = GlobalLogger::getInstance();
 }
 
 
@@ -10,10 +10,7 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 {
 	auto it = flightRecords.begin();
 
-	if (logger == nullptr)
-	{
-		logger = GlobalLogger::getInstance();
-	}
+	
 
 	while (landingLoop)
 	{
