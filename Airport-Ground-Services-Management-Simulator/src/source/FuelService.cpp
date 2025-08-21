@@ -49,23 +49,3 @@ void FuelService::transferFuel(float fuelAmount , const std::string& flightNumbe
 }
 
 
-FuelTasks FuelService::fuelCrewTask(int crewID)
-{
-	if (crewID < 4)
-	{
-		return RefuelPlane;
-	}
-
-
-	else if (crewID > 6)
-	{
-		return RefuelTank;
-	}
-
-	else
-	{
-		return TransportFuel;
-	}
-
-
-}

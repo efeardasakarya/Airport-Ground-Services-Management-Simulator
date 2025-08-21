@@ -4,10 +4,14 @@
 #include "FlightRecordsManager.h"
 #include "spdlog/spdlog.h"
 #include "GlobalLogger.h"
-#include "CleaningService.h"
-#include "FuelService.h"
-#include "LuggageService.h"
+#include "Service.h"
+#include "ServiceHandler.h"
 #include <queue>
+#include <thread>
+#include <chrono>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 
 
@@ -16,15 +20,7 @@
 int main()
 {
 	FlightRecordsManager flightRecordManager;
-	std::queue<GroundService*> services;
-
-	std::map<int, std::string> staffList;
-	staffList[111] = "Staff1";
-	staffList[222] = "Staff2";
-	staffList[333] = "Staff3";
-	staffList[444] = "Staff4";
-
-
+	ServiceHandler serviceHandler;
 
 
 	//Creating and register logger
@@ -34,38 +30,61 @@ int main()
 
 
 	//Read file and create flight objects
-	std::map<std::string, Flight> & records = flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv"); 
+	std::map<std::string, Flight>& flightRecords = flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
+
+	// Local Variables
+	Flight* landingFlight = nullptr;
+	Flight* takeofFlight = nullptr;
+	auto it = flightRecords.begin();
+	int remainLandTime = 10;
+	bool landingLoop = true;
 	
-	for (auto& [_,value] : records)
-	{
-		if (value.getFlightNumber()[0] == 'E')
+
+
+
+	while (landingLoop) {
+
+
+		if (landingFlight == nullptr)
 		{
-			value.setDemandingService(Clenaning);
-			services.push(new CleaningService(staffList, 4));
-
-
+			if (it == flightRecords.end()) {
+				logger->printInfo("Tum ucuslar inis yapti, program sonlandiriliyor.");
+				landingLoop = false;
+				
+			}
+			else
+			{
+				landingFlight = &it->second;
+			}
 		}
-
-		else if (value.getFlightNumber()[0] == 'J')
-		{
-			value.setDemandingService(Lugagge);
-			services.push(new LuggageService(staffList, 4));
-		}
-
 
 		else
 		{
-			value.setDemandingService(Fuel);
-			services.push(new FuelService(staffList, 4));
+			if (remainLandTime == 0)
+			{
+				logger->printInfo("Flight " + landingFlight->getFlightNumber() + " has landed");
 
+				serviceHandler.serviceHandler(landingFlight, true);
+
+				it++;
+				landingFlight = nullptr;
+				remainLandTime = 10;
+			}
+			else
+			{
+				logger->printInfo("Flight " + landingFlight->getFlightNumber() + " will land in " + std::to_string(remainLandTime) + " seconds");
+				remainLandTime--;
+			}
 		}
-	
 
+		// 1 saniye bekle
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
- 
+
+
+
+
 }
 
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu

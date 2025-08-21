@@ -48,6 +48,9 @@
     <ClCompile Include="src\source\CleaningService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\source\ServiceHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Flight.h">
@@ -69,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\CleaningService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\ServiceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

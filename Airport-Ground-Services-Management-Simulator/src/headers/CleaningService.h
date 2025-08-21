@@ -3,20 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
-enum CleaningTasks
-{
-	Daily,
-	Weekly,
-	Monthly,
-	Yearly,
-	
+#include "Service.h"
 
 
-
-
-
-};
 
 
 class CleaningService :public GroundService
@@ -50,32 +39,7 @@ public:
 	void removeStaffName(int staffNumber);
 	void setCleaningTime(int cleaningTime);
 
-	CleaningTasks cleaningCrewTask(int crewID)
-	{
-		if (crewID < 3)
-		{
-			return Daily;
-		}
-
-		else if (crewID < 5)
-		{
-			return Weekly;
-		}
-		else if (crewID < 8)
-		{
-			return Monthly;
-		}
-		else 
-		{
-			return Yearly;
-		}
-
-
-	}
-
-
-
-
+	
 
 
 private:

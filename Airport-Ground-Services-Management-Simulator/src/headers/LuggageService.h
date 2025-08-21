@@ -1,13 +1,7 @@
 #pragma once
 #include "GroundService.h"
+#include "Service.h"
 
-enum LuggageTasks
-{
-	LoadLuggage,
-	UnloadLuggage,
-	TransportLuggage
-
-};
 
 
 
@@ -33,7 +27,7 @@ public:
 
 	bool checkBaggage();
 	
-	LuggageTasks luggageCrewTask(int crewID);
+	
 
 private:
 
