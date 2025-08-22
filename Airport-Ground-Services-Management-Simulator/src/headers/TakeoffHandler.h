@@ -1,12 +1,15 @@
 #pragma once
-#pragma once
+
+#include <map>
+
+#include "spdlog/spdlog.h"
+
 #include "Flight.h"
 #include "FlightRecordsManager.h"
-#include "spdlog/spdlog.h"
 #include "GlobalLogger.h"
 #include "Service.h"
 #include "ServiceHandler.h"
-#include <map>
+
 
 
 class TakeoffHandler

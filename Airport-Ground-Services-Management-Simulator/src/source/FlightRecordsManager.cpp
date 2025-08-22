@@ -1,12 +1,13 @@
 
 #include "FlightRecordsManager.h"
+
 #include <iostream>
 #include <string>
 #include <stdexcept> // runtime_error
 #include <filesystem> // C++17 
-#include "GlobalLogger.h"
 #include <random>
 
+#include "GlobalLogger.h"
 
 int randomNumberPicker()
 {

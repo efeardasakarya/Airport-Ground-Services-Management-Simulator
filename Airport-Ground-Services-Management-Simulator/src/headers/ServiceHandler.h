@@ -1,15 +1,12 @@
 #pragma once
 #include <iostream>
+
 #include "Service.h"
 #include "Flight.h"
 #include "GlobalLogger.h"
 
 class ServiceHandler
 {
-
-
-
-
 public:
 
 	void serviceHandler(Flight* landingFlight, bool adding);
