@@ -8,7 +8,6 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 	std::string loopInput;
 	int serviceInput;
 	
-
 	while (loop)
 	{
 		logger->printInfo("Will you add any tasks? (Y/N) ");
@@ -54,9 +53,6 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 
 	}
 		
-
-
-
 }
 
 void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
@@ -64,16 +60,21 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 	int fuelInput;
 	logger->printInfo( "Please choose the task for add ---> 0 = Refuel Plane , 1 = Refuel Tank , 2 = TransportFuel ");
 	std::cin >> fuelInput;
+	FuelTasks task;
 
 	switch (fuelInput)
 	{
 	case 0:
-		adding ? landingFlight->addDemandingServices(FuelTasks::RefuelPlane) : landingFlight->removeDemandingServices(FuelTasks::RefuelPlane);
+		task = FuelTasks::RefuelPlane;
+		break;
 	case 1:
-		adding ? landingFlight->addDemandingServices(FuelTasks::RefuelTank) : landingFlight->removeDemandingServices(FuelTasks::RefuelTank);
+		task = FuelTasks::RefuelTank;
+		break;
 	case 2:
-		adding ? landingFlight->addDemandingServices(FuelTasks::TransportFuel) : landingFlight->removeDemandingServices(FuelTasks::TransportFuel);
+		task = FuelTasks::TransportFuel;
+		break;
 	default:
+		logger->printError("Invalid Input");
 		break;
 	}
 
@@ -86,19 +87,34 @@ void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 	int cleaningInput;
 	logger->printInfo( "Please choose the task for add  ---> 0 = Daily , 1 = Weekly , 2 = Monthly , 3 = Yearly ") ;
 	std::cin >> cleaningInput;
+	CleaningTasks task;
 
 	switch (cleaningInput)
 	{
 	case 0:
-		adding ? landingFlight->addDemandingServices(CleaningTasks::Daily) : landingFlight->removeDemandingServices(CleaningTasks::Daily);
-	case 1:
-		adding ? landingFlight->addDemandingServices(CleaningTasks::Weekly) : landingFlight->removeDemandingServices(CleaningTasks::Weekly);
-	case 2:
-		adding ? landingFlight->addDemandingServices(CleaningTasks::Monthly) : landingFlight->removeDemandingServices(CleaningTasks::Monthly);
-	case 3:
-		adding ? landingFlight->addDemandingServices(CleaningTasks::Yearly) : landingFlight->removeDemandingServices(CleaningTasks::Yearly);
-	default:
+		task = CleaningTasks::Daily;
 		break;
+	case 1:
+		task = CleaningTasks::Weekly;
+		break;
+	case 2:
+		task = CleaningTasks::Monthly;
+		break;
+	case 3:
+		task = CleaningTasks::Yearly;
+		break;
+	default:
+		logger->printError("Invalid Input");
+		break;
+	}
+
+	if (adding)
+	{
+		landingFlight->addDemandingServices(task);
+	}
+	else
+	{
+		landingFlight->removeDemandingServices(task);
 	}
 
 
@@ -110,20 +126,30 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 	int luggageInput;
 	logger->printInfo ("Please choose the task for add  ---> 0 = Load Luggage , 1 = UnloadLuggage , 2 = Transport Luggage" );
 	std::cin >> luggageInput;
+	LuggageTasks task;
 
 	switch (luggageInput)
 	{
 	case 0:
-		adding ? landingFlight->addDemandingServices(LuggageTasks::LoadLuggage) : landingFlight->removeDemandingServices(LuggageTasks::LoadLuggage);
+		task = LuggageTasks::LoadLuggage;
+		break;
 	case 1:
-		adding ? landingFlight->addDemandingServices(LuggageTasks::UnloadLuggage) : landingFlight->removeDemandingServices(LuggageTasks::UnloadLuggage);
+		task = LuggageTasks::UnloadLuggage;
+		break;
 	case 2:
-		adding ? landingFlight->addDemandingServices(LuggageTasks::TransportLuggage) : landingFlight->removeDemandingServices(LuggageTasks::TransportLuggage);
-
+		task = LuggageTasks::TransportLuggage;
+		break;
 	default:
+		logger->printError("Invalid Input");
 		break;
 	}
 
-
-
+	if (adding)
+	{
+		landingFlight->addDemandingServices(task);
+	}
+	else
+	{
+		landingFlight->removeDemandingServices(task);
+	}
 }

@@ -44,36 +44,42 @@ void Flight::setLandingTime(const std::string& newLandingTime) { landignTime = n
 
 
 
-void Flight::addDemandingServices(CleaningTasks t) {
+ void Flight::addDemandingServices(CleaningTasks t)  
+{
 	// sr’yi param olarak alsak da güvenli olan type’tan seti seçmek:
 	demandingServices.insert(Cleaning);
 	cleaningTasks.insert(t);
 }
 
-void Flight::addDemandingServices(FuelTasks t) {
+ void Flight::addDemandingServices(FuelTasks t)   
+{
 	demandingServices.insert(Service::Fuel);
 	fuelTasks.insert(t);
 }
 
-void Flight::addDemandingServices(LuggageTasks t) {
+ void Flight::addDemandingServices(LuggageTasks t) 
+{
 	demandingServices.insert(Service::Luggage);
 	luggageTasks.insert(t);
 }
 
 // --- remove ---
-void Flight::removeDemandingServices(CleaningTasks t) {
+ void Flight::removeDemandingServices(CleaningTasks t) 
+{
 	cleaningTasks.erase(t);
 	if (cleaningTasks.empty())
 		demandingServices.erase(Service::Cleaning);
 }
 
-void Flight::removeDemandingServices(FuelTasks t) {
+ void Flight::removeDemandingServices(FuelTasks t)
+{
 	fuelTasks.erase(t);
 	if (fuelTasks.empty())
 		demandingServices.erase(Service::Fuel);
 }
 
-void Flight::removeDemandingServices(LuggageTasks t) {
+ void Flight::removeDemandingServices(LuggageTasks t) 
+{
 	luggageTasks.erase(t);
 	if (luggageTasks.empty())
 		demandingServices.erase(Service::Luggage);

@@ -7,11 +7,12 @@
 #include "Service.h"
 #include "ServiceHandler.h"
 #include "LandingHandler.h"
+#include "TakeoffHandler.h"
 #include <queue>
 #include <thread>
 #include <chrono>
 #include <sstream>
-
+#include "magic_enum/magic_enum.hpp"
 
 
 
@@ -23,6 +24,7 @@ int main()
 	FlightRecordsManager flightRecordManager;
 	ServiceHandler serviceHandler;
 	LandingHandler landingHandler;
+	TakeoffHandler takeoffHandler;
 	
 
 
@@ -38,8 +40,7 @@ int main()
 	
 	landingHandler.landingProcess(flightRecords);
 
-	     
-	
+	takeoffHandler.takeoffProcess(flightRecords);
 
 }
 

@@ -37,6 +37,7 @@ public:
 	const std::string& getFlightNumber() const;
 	const std::string& getAirLine() const;
 	const std::string& getLandingTime() const;
+
 	//Task getters
 	const std::unordered_set<Service> getDemandingServices() const;
 	const std::unordered_set<FuelTasks> getFuelTasks() const;
