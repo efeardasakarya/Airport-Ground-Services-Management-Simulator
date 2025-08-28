@@ -43,6 +43,8 @@ int main()
 	while (true)
 	{
 
+		// Daha sonrasında buraya landingProcess bittikçe yeni bir thread başlatan bir döngü implemente et. Eğer dosa biterse döngü sonlanacak.
+		 
 
 		if (landingHandler.hasWork(flightRecords) > 1)
 		{
