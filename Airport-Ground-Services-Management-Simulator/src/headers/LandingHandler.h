@@ -27,6 +27,8 @@ public:
 
 	void landingProcess(std::map<std::string, Flight>& flightRecords);
 
+	int hasWork(std::map<std::string, Flight>& flightRecords);
+
 private:
 
 	FlightRecordsManager flightRecordManager;
@@ -46,7 +48,9 @@ private:
 	std::mutex refLock;
 	std::mutex timeLock;
 
-	
+	int randomNumberGenerator(int i, int  j);
+
+
 
 };
 

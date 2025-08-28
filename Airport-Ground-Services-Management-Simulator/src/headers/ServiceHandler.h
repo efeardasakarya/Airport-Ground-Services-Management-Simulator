@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <iostream>
+#include <thread>
+#include <mutex>
 
 #include "Service.h"
 #include "Flight.h"
@@ -17,11 +19,11 @@ public:
 
 	void luggageTaskHandler(Flight* landingFlight, bool adding);
 
-
-
 	GlobalLogger* logger = GlobalLogger::getInstance();
 
 private:
+
+	std::mutex serviceLock;
 
 };
 

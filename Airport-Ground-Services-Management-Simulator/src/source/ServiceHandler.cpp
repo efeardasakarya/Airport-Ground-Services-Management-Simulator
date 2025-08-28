@@ -12,7 +12,11 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 	
 	while (loop)
 	{
-		logger->printInfo("Will you add any tasks? (Y/N) ");
+		
+		std::this_thread::sleep_for(std::chrono::milliseconds(500) );  // 0.5 sn gecikme
+
+		logger->printInfo(landingFlight->getFlightNumber() + ": Will you add any tasks? (Y/N) ");
+		
 
 		std::cin >> loopInput;
 

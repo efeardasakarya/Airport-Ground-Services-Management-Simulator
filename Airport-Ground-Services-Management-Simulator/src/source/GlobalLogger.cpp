@@ -1,4 +1,4 @@
-#include "GlobalLogger.h"
+﻿#include "GlobalLogger.h"
 GlobalLogger* GlobalLogger::instance = nullptr;
 
 
@@ -15,14 +15,13 @@ GlobalLogger::~GlobalLogger()
 
 }
 
-
-
 GlobalLogger* GlobalLogger::getInstance()
 {
 	if (instance == nullptr)
 	{
-		instance = new GlobalLogger();
+		static GlobalLogger instance;
 		
+		return &instance;
 		
 		
 	}
@@ -33,6 +32,7 @@ GlobalLogger* GlobalLogger::getInstance()
 
 void GlobalLogger::printInfo(const std::string& InfoMessage )
 {
+	
 	asyncLogger->info(InfoMessage);
 }
 
@@ -40,6 +40,7 @@ void GlobalLogger::printInfo(const std::string& InfoMessage )
 
 void GlobalLogger::printError(const std::string& ErrorMessage)
 {
+	
 	asyncLogger->error(ErrorMessage);
 }
 

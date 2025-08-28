@@ -1,4 +1,4 @@
-// Airport-Ground-Services-Management-Simulator.cpp 
+﻿// Airport-Ground-Services-Management-Simulator.cpp 
 // 
 //C++ Headers
 
@@ -27,7 +27,7 @@ int main()
 	ServiceHandler serviceHandler;
 	LandingHandler landingHandler;
 	TakeoffHandler takeoffHandler;
-	
+
 
 
 	//Creating and register logger
@@ -39,10 +39,33 @@ int main()
 	//Read file and create flight objects
 	std::map<std::string, Flight>& flightRecords = flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
 
-	
-	landingHandler.landingProcess(flightRecords);
 
-	takeoffHandler.takeoffProcess(flightRecords);
+	while (true)
+	{
+
+
+		if (landingHandler.hasWork(flightRecords) > 1)
+		{
+			std::jthread t1([&] { landingHandler.landingProcess(flightRecords); });
+			std::jthread t2([&] { landingHandler.landingProcess(flightRecords); });
+		}
+
+		else if (landingHandler.hasWork(flightRecords) == 1)
+		{
+			std::jthread t1([&] { landingHandler.landingProcess(flightRecords); });
+		}
+
+
+		else
+		{
+			break;
+		}
+	}
+
+
+
+
+	//takeoffHandler.takeoffProcess(flightRecords);
 
 }
 

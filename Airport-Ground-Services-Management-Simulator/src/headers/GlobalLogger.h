@@ -1,6 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
+#include <mutex>
+#include <thread>
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -14,6 +16,7 @@ class GlobalLogger
 {
 private:
 	static GlobalLogger* instance;
+
 	std::shared_ptr<spdlog::logger> asyncLogger;
 
 	GlobalLogger(); // Singleton constructor must be private against the copy from other classes
@@ -28,6 +31,7 @@ private:
 
 public:
 	GlobalLogger(const GlobalLogger&) = delete;
+
 	GlobalLogger& operator=(const GlobalLogger&) = delete;
 
 	static GlobalLogger* getInstance();

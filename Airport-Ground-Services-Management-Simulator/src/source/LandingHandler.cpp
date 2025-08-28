@@ -1,9 +1,20 @@
 ﻿#include "LandingHandler.h"
+#include <random>
+
+int LandingHandler::randomNumberGenerator(int i, int j)
+{
+	static thread_local std::mt19937 rng{ std::random_device{}() };
+	return std::uniform_int_distribution<int>(i, j)(rng);
+}
+
+
+
 
 //Diğer thredlerle karışma olmaması adına içeride değiştirilen class değişkenlerini lokale atabdı
 thread_local std::optional<std::map<std::string, Flight>::node_type> localNode;
 thread_local Flight* localFlight = nullptr;
 thread_local int localRemainLandTime = 0;
+static std::mutex serviceGate; // Mutex for serviceHandler.
 
 
 //CONSTRUCTOR. Aynı zamanda içeride logger oluşuyor.
@@ -12,11 +23,9 @@ LandingHandler::LandingHandler()
 	logger = GlobalLogger::getInstance();
 }
 
-
 void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords)
 {
-
-
+	
 	while (true)
 	{
 		// Bu kısım kilit altında tutularak thread-safeliği sağlayan parça.
@@ -26,12 +35,13 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 			// Flight nesnesi yoksa burası açılır
 			if (!localNode)
 			{
-					// Kayıt dosyası boş değilse eğer buradan yeni Flight alınır
+				// Kayıt dosyası boş değilse eğer buradan yeni Flight alınır
 				if (!flightRecords.empty())
 				{
 					localNode.emplace(flightRecords.extract(flightRecords.begin()));	// Kopya oluşturmamak ve iterator kullanarak data race e neden olmamak adına Flight'ı mapten
 					localFlight = &localNode->mapped();									// çıkarıp bir 2'li node'a atayarak kullanıyoruz. 
-					localRemainLandTime = 10; // iniş sayacı başlat
+					
+					localRemainLandTime = randomNumberGenerator(6, 13); // iniş sayacı başlat
 				}
 
 				// Kayıt dosyası boşsa uçuşlar bitmiş demektir. landging handler sona erer
@@ -47,20 +57,27 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 				}
 
 			}
-		
+
 		}
 
 
 		// Uçak indiğinde logger ile yazı yazdır ve servive handleri çalıştır. Loggeri gecikme ve deadlockun önüne geçmemek adına kilit dışında kullanıyoruz.
 		if (localRemainLandTime == 0)
 		{
-				
+
 			logger->printInfo("Flight " + localFlight->getFlightNumber() + " has landed");
 
 			// DİKKAT: serviceHandler thread-safe olmalı; içeride kilit alma düzenini kontrol et
-			
 
-			serviceHandler.serviceHandler(localFlight, true);
+
+			// === KAPI: Tek-thread erişim ===
+			{
+				std::scoped_lock gateLock(serviceGate);
+
+				serviceHandler.serviceHandler(localFlight, true);
+
+			}
+
 
 			// Bu thread'in durumunu sıfırla (diğer thread'leri etkilemez)
 			{
@@ -68,8 +85,8 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 				localNode.reset();
 				localFlight = nullptr;
 			}
-				
-			
+
+
 
 			return;
 		}
@@ -96,5 +113,8 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 }
 
 
-
-
+int LandingHandler::hasWork(std::map<std::string, Flight>& flightRecords)
+{
+	std::scoped_lock lock(refLock);
+	return flightRecords.size();
+}
