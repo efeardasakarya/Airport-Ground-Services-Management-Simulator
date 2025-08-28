@@ -1,6 +1,8 @@
 ﻿#include "LandingHandler.h"
 #include <random>
 
+
+ // Random number generator for better real life simulation by landing duration
 int LandingHandler::randomNumberGenerator(int i, int j)
 {
 	static thread_local std::mt19937 rng{ std::random_device{}() };
@@ -10,14 +12,16 @@ int LandingHandler::randomNumberGenerator(int i, int j)
 
 
 
-//Diğer thredlerle karışma olmaması adına içeride değiştirilen class değişkenlerini lokale atabdı
+//Defined local variables because prevent the conflicts between threads
 thread_local std::optional<std::map<std::string, Flight>::node_type> localNode;
 thread_local Flight* localFlight = nullptr;
 thread_local int localRemainLandTime = 0;
-static std::mutex serviceGate; // Mutex for serviceHandler.
+
+// Mutex for serviceHandler.
+static std::mutex serviceGate; 
 
 
-//CONSTRUCTOR. Aynı zamanda içeride logger oluşuyor.
+//CONSTRUCTOR. And create logger at the begining
 LandingHandler::LandingHandler()
 {
 	logger = GlobalLogger::getInstance();
@@ -28,26 +32,27 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 	
 	while (true)
 	{
-		// Bu kısım kilit altında tutularak thread-safeliği sağlayan parça.
+		//  The part locked with mutex for thread-safe
 		{
+			// Use unique lock for unlock after
 			std::unique_lock<std::mutex> lock(refLock);
 
-			// Flight nesnesi yoksa burası açılır
+			// if Flight object is null , this part start work and give object from flightRecords
 			if (!localNode)
 			{
-				// Kayıt dosyası boş değilse eğer buradan yeni Flight alınır
+				// Get new flight if flightRecords not empty
 				if (!flightRecords.empty())
 				{
-					localNode.emplace(flightRecords.extract(flightRecords.begin()));	// Kopya oluşturmamak ve iterator kullanarak data race e neden olmamak adına Flight'ı mapten
-					localFlight = &localNode->mapped();									// çıkarıp bir 2'li node'a atayarak kullanıyoruz. 
+					localNode.emplace(flightRecords.extract(flightRecords.begin()));	//Extract and give the Flight to  a node for prevent data-race and avoid copying
+					localFlight = &localNode->mapped();									   
 					
-					localRemainLandTime = randomNumberGenerator(6, 13); // iniş sayacı başlat
+					localRemainLandTime = randomNumberGenerator(6, 13); // Give random remain time between 6-13 
 				}
 
-				// Kayıt dosyası boşsa uçuşlar bitmiş demektir. landging handler sona erer
+				//  Flights are ended if records file is empty. Finish the landingHandler function 
 				else
 				{
-					lock.unlock(); // Loggerin gecikme yapmaması için kilit açılır.
+					lock.unlock(); // Unlock the lock for logging. Two locks could make a deadlock
 
 					logger->printInfo("Ucus kayit listesi bos. İnis sistemi beklemede");
 
@@ -98,9 +103,6 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 			logger->printInfo("Flight " + localFlight->getFlightNumber() + " will land in " + std::to_string(localRemainLandTime) + " seconds");
 			localRemainLandTime--;
 		}
-
-
-
 
 
 		std::this_thread::sleep_for(std::chrono::seconds(1)); // her saniye 1 kez bu döngüyü çevir
