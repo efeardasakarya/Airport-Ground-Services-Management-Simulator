@@ -1,5 +1,12 @@
-#include "LandingHandler.h"
+﻿#include "LandingHandler.h"
 
+//Diğer thredlerle karışma olmaması adına içeride değiştirilen class değişkenlerini lokale atabdı
+thread_local std::optional<std::map<std::string, Flight>::node_type> localNode;
+thread_local Flight* localFlight = nullptr;
+thread_local int localRemainLandTime = 0;
+
+
+//CONSTRUCTOR. Aynı zamanda içeride logger oluşuyor.
 LandingHandler::LandingHandler()
 {
 	logger = GlobalLogger::getInstance();
@@ -8,57 +15,86 @@ LandingHandler::LandingHandler()
 
 void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords)
 {
-	auto it = flightRecords.begin();
 
-	
 
-	while (landingLoop)
+	while (true)
 	{
-
-		if (landingFlight == nullptr)
+		// Bu kısım kilit altında tutularak thread-safeliği sağlayan parça.
 		{
-			if (it == flightRecords.end())
+			std::unique_lock<std::mutex> lock(refLock);
+
+			// Flight nesnesi yoksa burası açılır
+			if (!localNode)
 			{
-				logger->printInfo("Tum ucuslar inis yapti, program sonlandiriliyor.");
-				landingLoop = false;
-				break;
+					// Kayıt dosyası boş değilse eğer buradan yeni Flight alınır
+				if (!flightRecords.empty())
+				{
+					localNode.emplace(flightRecords.extract(flightRecords.begin()));	// Kopya oluşturmamak ve iterator kullanarak data race e neden olmamak adına Flight'ı mapten
+					localFlight = &localNode->mapped();									// çıkarıp bir 2'li node'a atayarak kullanıyoruz. 
+					localRemainLandTime = 10; // iniş sayacı başlat
+				}
+
+				// Kayıt dosyası boşsa uçuşlar bitmiş demektir. landging handler sona erer
+				else
+				{
+					lock.unlock(); // Loggerin gecikme yapmaması için kilit açılır.
+
+					logger->printInfo("Ucus kayit listesi bos. İnis sistemi beklemede");
+
+					return;
+
+
+				}
 
 			}
-			else
-			{
-				landingFlight = &it->second;
-			}
+		
 		}
 
+
+		// Uçak indiğinde logger ile yazı yazdır ve servive handleri çalıştır. Loggeri gecikme ve deadlockun önüne geçmemek adına kilit dışında kullanıyoruz.
+		if (localRemainLandTime == 0)
+		{
+				
+			logger->printInfo("Flight " + localFlight->getFlightNumber() + " has landed");
+
+			// DİKKAT: serviceHandler thread-safe olmalı; içeride kilit alma düzenini kontrol et
+			
+
+			serviceHandler.serviceHandler(localFlight, true);
+
+			// Bu thread'in durumunu sıfırla (diğer thread'leri etkilemez)
+			{
+				std::scoped_lock lock(refLock);
+				localNode.reset();
+				localFlight = nullptr;
+			}
+				
+			
+
+			return;
+		}
+
+
+		// Eğer süre bitmediyse uçağın inmesi için geri sayımı yazdır. Loggeri gecikme ve deadklockun önüne geçmek adına kilit dışında kullanıyoruz
 		else
 		{
-			if (remainLandTime == 0)
-			{
-				logger->printInfo("Flight " + landingFlight->getFlightNumber() + " has landed");
-
-				serviceHandler.serviceHandler(landingFlight, true);
-
-				it++;
-				landingFlight = nullptr;
-				remainLandTime = 10;
-
-			}
-			else
-			{
-				logger->printInfo("Flight " + landingFlight->getFlightNumber() + " will land in " + std::to_string(remainLandTime) + " seconds");
-				remainLandTime--;
-
-
-
-
-			}
+			logger->printInfo("Flight " + localFlight->getFlightNumber() + " will land in " + std::to_string(localRemainLandTime) + " seconds");
+			localRemainLandTime--;
 		}
 
 
-		// 1 saniye bekle
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+
+
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // her saniye 1 kez bu döngüyü çevir
+
+
+
 
 	}
 
 }
 
+
+
+

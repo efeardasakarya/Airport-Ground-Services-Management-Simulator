@@ -1,4 +1,4 @@
-
+ï»¿
 #include "FlightRecordsManager.h"
 
 #include <iostream>
@@ -8,17 +8,6 @@
 #include <random>
 
 #include "GlobalLogger.h"
-
-int randomNumberPicker()
-{
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> dist(1, 10);
-
-	int sayi = dist(gen);
-	return sayi;
-}
-
 
 
 
@@ -68,7 +57,7 @@ std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 		std::ifstream file;  //open file on reading mode
 		file.exceptions(std::ifstream::badbit); // check the file. If don't open throw an exception
 		file.open(fileName);
-		return file; //açýlan dosyayý döndür
+		return file; //aÃ§Ä±lan dosyayÄ± dÃ¶ndÃ¼r
 
 	}
 
@@ -140,18 +129,9 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 
 }
 
-
-
-
-
-
-
-
-
-
 void FlightRecordsManager::printFlights(const std::map<std::string, Flight>& flights)
 {
-	for (const auto& [_, value] : flights)
+	for (const auto& [_ , value] : flights)
 	{
 
 

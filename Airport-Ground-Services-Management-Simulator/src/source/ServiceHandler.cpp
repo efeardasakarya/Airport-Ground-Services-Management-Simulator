@@ -1,4 +1,4 @@
-#include "ServiceHandler.h"
+﻿#include "ServiceHandler.h"
 
 
 
@@ -7,6 +7,8 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 	bool loop=true;
 	std::string loopInput;
 	int serviceInput;
+	
+	
 	
 	while (loop)
 	{
@@ -78,6 +80,14 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 		break;
 	}
 
+	if (adding)
+	{
+		landingFlight->addDemandingServices(task);
+	}
+	else
+	{
+		landingFlight->removeDemandingServices(task);
+	}
 
 
 }
@@ -153,3 +163,4 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 		landingFlight->removeDemandingServices(task);
 	}
 }
+

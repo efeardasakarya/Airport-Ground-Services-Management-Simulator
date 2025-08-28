@@ -1,4 +1,4 @@
-#include "CleaningService.h"
+﻿#include "CleaningService.h"
 
 #include <iostream>
 
@@ -8,14 +8,6 @@ CleaningService::CleaningService(std::map<int, std::string> staffList, int staff
 {
 	
 }
-
-
-
-
-
-
-
-
 
 int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance imp)  // Importance enum is in the CleaningService.h
 {

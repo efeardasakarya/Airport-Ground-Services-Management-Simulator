@@ -1,4 +1,4 @@
-#include "Flight.h"
+ï»¿#include "Flight.h"
 #include "Service.h"
 
 
@@ -43,10 +43,10 @@ void Flight::setLandingTime(const std::string& newLandingTime) { landignTime = n
 
 
 
-
+// --- add ---
  void Flight::addDemandingServices(CleaningTasks t)  
 {
-	// sr’yi param olarak alsak da güvenli olan type’tan seti seçmek:
+	// srâ€™yi param olarak alsak da gÃ¼venli olan typeâ€™tan seti seÃ§mek:
 	demandingServices.insert(Cleaning);
 	cleaningTasks.insert(t);
 }

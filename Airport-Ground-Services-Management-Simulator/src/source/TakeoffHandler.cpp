@@ -1,4 +1,4 @@
-#include "TakeoffHandler.h"
+﻿#include "TakeoffHandler.h"
 
 #include "magic_enum/magic_enum.hpp"
 
@@ -78,15 +78,7 @@ void TakeoffHandler::takeoffProcess(std::map<std::string, Flight>& flightRecords
 
 			}
 
-
-
-
-
 		}
-
-
-
-
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 

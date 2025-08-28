@@ -1,8 +1,13 @@
-#pragma once
+﻿#pragma once
 
 #include "CleaningService.h"
 #include "FuelService.h"
 #include "LuggageService.h"
+#include <map>
+#include <mutex>
+#include <string>
+
+
 enum Service
 {
 	Luggage,    //0

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <string>
 #include <memory>
@@ -29,7 +29,7 @@ public:
 	Flight(const std::string& FlightNumber, const std::string& AirLine, const std::string& LandingTime);
 
 
-	~Flight() = default;    // Program sona geldiðinde otomatik olarak çalýþýr
+	~Flight() = default;    // Automatically runs when program finished
 
 
 
