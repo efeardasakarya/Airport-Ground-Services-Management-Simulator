@@ -31,8 +31,9 @@ int main()
 
 
 	//Creating and register logger
-	auto logger = GlobalLogger::getInstance(); // Create and register named "asyncLogger"
+	auto logger = GlobalLogger::getInstance();
 	logger->asyncMultiSink();
+
 	logger->printInfo("asyncLogger has been created");
 
 
@@ -43,7 +44,7 @@ int main()
 	while (true)
 	{
 
-		// Daha sonrasında buraya landingProcess bittikçe yeni bir thread başlatan bir döngü implemente et. Eğer dosa biterse döngü sonlanacak.
+		// !!!!!!! Daha sonrasında buraya landingProcess bittikçe yeni bir thread başlatan bir döngü implemente et. Eğer dosa biterse döngü sonlanacak.
 		 
 
 		if (landingHandler.hasWork(flightRecords) > 1)

@@ -13,9 +13,8 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 	while (loop)
 	{
 		
-		std::this_thread::sleep_for(std::chrono::milliseconds(500) );  // 0.5 sn gecikme
 
-		logger->printInfo(landingFlight->getFlightNumber() + ": Will you add any tasks? (Y/N) ");
+		logger->userInputMessage( landingFlight->getFlightNumber() + ": Will you add any tasks? (Y/N) ");
 		
 
 		std::cin >> loopInput;
@@ -24,7 +23,7 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 		if (loopInput == "Y" || loopInput == "y")
 		{
 			
-			logger->printInfo("Please choose the task you add/remove  ---> 0 = Luggage , 1 = Cleaning , 2 = Fuel ");
+			logger -> important ("Please choose the task you add/remove  ---> 0 = Luggage , 1 = Cleaning , 2 = Fuel ");
 			std::cin >> serviceInput;
 
 			switch (serviceInput)
@@ -39,19 +38,21 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 				fuelTaskHandler(landingFlight, adding);
 				break;
 			default:
-				logger->printError("Please enter a valid number");
+				std::cout << ("Please enter a valid number") << std::flush;
 			}
 		}
 
 		else if (loopInput == "N" || loopInput == "n")
 		{
 			loop = false;
+			logger->unlockInput();
 			break;
+			
 		}
 
 		else
 		{
-			logger->printInfo("Invalid input. Please try again");
+			std::cout << ("Invalid input. Please try again") << std::flush;
 			
 		}
 
@@ -64,7 +65,7 @@ void ServiceHandler::serviceHandler(Flight* landingFlight, bool adding)
 void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 {
 	int fuelInput;
-	logger->printInfo( "Please choose the task for add ---> 0 = Refuel Plane , 1 = Refuel Tank , 2 = TransportFuel ");
+	logger->important ( "Please choose the task for add ---> 0 = Refuel Plane , 1 = Refuel Tank , 2 = TransportFuel ");
 	std::cin >> fuelInput;
 	FuelTasks task;
 
@@ -80,7 +81,7 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 		task = FuelTasks::TransportFuel;
 		break;
 	default:
-		logger->printError("Invalid Input");
+		std::cout << ("Invalid Input") << std::flush;
 		break;
 	}
 
@@ -99,7 +100,7 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 {
 	int cleaningInput;
-	logger->printInfo( "Please choose the task for add  ---> 0 = Daily , 1 = Weekly , 2 = Monthly , 3 = Yearly ") ;
+	logger->important ( "Please choose the task for add  ---> 0 = Daily , 1 = Weekly , 2 = Monthly , 3 = Yearly ");
 	std::cin >> cleaningInput;
 	CleaningTasks task;
 
@@ -118,7 +119,7 @@ void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 		task = CleaningTasks::Yearly;
 		break;
 	default:
-		logger->printError("Invalid Input");
+		std::cout << ("Invalid Input") << std::flush;
 		break;
 	}
 
@@ -138,7 +139,7 @@ void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 {
 	int luggageInput;
-	logger->printInfo ("Please choose the task for add  ---> 0 = Load Luggage , 1 = UnloadLuggage , 2 = Transport Luggage" );
+	logger->important ("Please choose the task for add  ---> 0 = Load Luggage , 1 = UnloadLuggage , 2 = Transport Luggage" );
 	std::cin >> luggageInput;
 	LuggageTasks task;
 
@@ -154,7 +155,7 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 		task = LuggageTasks::TransportLuggage;
 		break;
 	default:
-		logger->printError("Invalid Input");
+		std::cout << ("Invalid Input") << std::flush;
 		break;
 	}
 

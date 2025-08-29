@@ -1,50 +1,52 @@
 ﻿#pragma once
 
 #include <string>
+#include <atomic>
 #include <mutex>
-#include <thread>
+#include <deque>
+#include <memory>
+#include <queue>
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/async.h"
-
 
 class GlobalLogger
 {
 private:
-	static GlobalLogger* instance;
+    static GlobalLogger* instance;
 
-	std::shared_ptr<spdlog::logger> asyncLogger;
+    
+    std::shared_ptr<spdlog::logger> asyncLogger;
+    std::shared_ptr<spdlog::logger> immediateLogger;
 
-	GlobalLogger(); // Singleton constructor must be private against the copy from other classes
+   
+    GlobalLogger();
+    ~GlobalLogger();
 
-	~GlobalLogger(); 
-
-	
-	
-	
-	
-	// in the future process print and create functions going to be merged.
+    bool inputLocked = false;
+    std::queue<std::string> delayedImportant;
 
 public:
-	GlobalLogger(const GlobalLogger&) = delete;
+    GlobalLogger(const GlobalLogger&) = delete;
+    GlobalLogger& operator=(const GlobalLogger&) = delete;
 
-	GlobalLogger& operator=(const GlobalLogger&) = delete;
+    static GlobalLogger* getInstance();
 
-	static GlobalLogger* getInstance();
-	
+    void asyncMultiSink();
+   
+    // === Normal loglar (input sırasında düşer) ===
+    void printInfo(const std::string& infoMessage);
+    void printError(const std::string& infoMessage);
+
+    void important(const std::string& importantMessage);
+    void userInputMessage(const std::string& inputMessage);
 
 
-	void asyncMultiSink();
+    void lockInput();
+    void unlockInput();
 
-	void printInfo(const std::string& InfoMessage);
-
-	void printError(const std::string& ErrorMessage);
-
-			
-
+   
+   
 };
-

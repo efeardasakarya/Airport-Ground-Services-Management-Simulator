@@ -29,7 +29,7 @@ LandingHandler::LandingHandler()
 
 void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords)
 {
-	
+	std::this_thread::sleep_for(std::chrono::seconds(randomNumberGenerator(3, 8)));
 	while (true)
 	{
 		//  The part locked with mutex for thread-safe
@@ -70,8 +70,8 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 		if (localRemainLandTime == 0)
 		{
 
-			logger->printInfo("Flight " + localFlight->getFlightNumber() + " has landed");
-
+			logger->important("Flight " + localFlight->getFlightNumber() + " has landed");
+			logger->lockInput();
 			// DİKKAT: serviceHandler thread-safe olmalı; içeride kilit alma düzenini kontrol et
 
 
@@ -101,7 +101,7 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 		else
 		{
 			logger->printInfo("Flight " + localFlight->getFlightNumber() + " will land in " + std::to_string(localRemainLandTime) + " seconds");
-			localRemainLandTime--;
+			--localRemainLandTime;
 		}
 
 

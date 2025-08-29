@@ -50,7 +50,9 @@ private:
 
 	int randomNumberGenerator(int i, int  j);
 
+protected:
 
+	void AskUserInput(Flight* f);
 
 };
 
