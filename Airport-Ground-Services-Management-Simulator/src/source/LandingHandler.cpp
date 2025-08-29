@@ -29,7 +29,7 @@ LandingHandler::LandingHandler()
 
 void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords)
 {
-	std::this_thread::sleep_for(std::chrono::seconds(randomNumberGenerator(3, 8)));
+	
 	while (true)
 	{
 		//  The part locked with mutex for thread-safe
