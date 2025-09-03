@@ -1,75 +1,44 @@
-﻿// Airport-Ground-Services-Management-Simulator.cpp 
-// 
-//C++ Headers
-
+﻿#include <map>
+#include <string>
 #include <thread>
-#include <chrono>
 
-#include "magic_enum/magic_enum.hpp"
-#include "spdlog/spdlog.h"
-
-#include "FlightRecordsManager.h"
+#include "ThreadHandler.h"
+#include "Flight.h"
 #include "GlobalLogger.h"
-#include "ServiceHandler.h"
-#include "LandingHandler.h"
-#include "TakeoffHandler.h"
+#include "FlightRecordsManager.h"
+
+int main() {
+
+    GlobalLogger::getInstance()->important("Simulator starting...");
+
+    FlightRecordsManager flighRecordManager;
 
 
+    // Register file. Read all flight infos and hold in a map indexin by Flight Numbers.
+    std::map<std::string, Flight> flightRecords = flighRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
 
 
+    // EXAMPLE for adding flights after file reading
+    
+    // flightRecords.emplace("TK101", Flight{"TK101","THY","18:30"});
+    // flightRecords.emplace("TK202", Flight{"TK202","THY","18:45"});
+    // flightRecords.emplace("PC303", Flight{"PC303","Pegasus","19:00"});
+    if (!flightRecords.empty())
+    {
 
 
+        ThreadHandler* threadHandler = ThreadHandler::getInstance();
 
-int main()
-{
+        // İki yönetici thread: biri iniş işleri atar, diğeri yerdeki kuyruktan tüketir
+        std::thread landingThread([&] { threadHandler->landingThreadHandler(flightRecords); });
+        std::thread takeoffThread([&] { threadHandler->takeoffThreadHandler(); });
 
-	FlightRecordsManager flightRecordManager;
-	ServiceHandler serviceHandler;
-	LandingHandler landingHandler;
-	TakeoffHandler takeoffHandler;
-
-
-
-	//Creating and register logger
-	auto logger = GlobalLogger::getInstance();
-	logger->asyncMultiSink();
-
-	logger->printInfo("asyncLogger has been created");
-
-
-	//Read file and create flight objects
-	std::map<std::string, Flight>& flightRecords = flightRecordManager.InitializeFlightRecordsManager("data/flight_program.csv");
-
-
-	while (true)
-	{
-
-		// !!!!!!! Daha sonrasında buraya landingProcess bittikçe yeni bir thread başlatan bir döngü implemente et. Eğer dosa biterse döngü sonlanacak.
-		 
-
-		if (landingHandler.hasWork(flightRecords) > 1)
-		{
-			std::jthread t1([&] { landingHandler.landingProcess(flightRecords); });
-			std::jthread t2([&] { landingHandler.landingProcess(flightRecords); });
-		}
-
-		else if (landingHandler.hasWork(flightRecords) == 1)
-		{
-			std::jthread t1([&] { landingHandler.landingProcess(flightRecords); });
-		}
-
-
-		else
-		{
-			break;
-		}
-	}
-
-
-
-
-	//takeoffHandler.takeoffProcess(flightRecords);
-
+        landingThread.join();
+        takeoffThread.join();
+        return 0;
+    }
+    else
+    {
+        return;
+    }
 }
-
-

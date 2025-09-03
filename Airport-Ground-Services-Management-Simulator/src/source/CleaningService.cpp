@@ -3,17 +3,16 @@
 #include <iostream>
 
 
-CleaningService::CleaningService(std::map<int, std::string> staffList, int staffs) 
-	: GroundService(std::move(staffList), staffs)
+CleaningService::CleaningService(std::map<int, std::string> staffList, int staffs) : GroundService(std::move(staffList), staffs)
 {
 	
 }
 
-int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance imp)  // Importance enum is in the CleaningService.h
+int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance importance)  // Importance enum is in the CleaningService.h
 {
 	int cleanerStaffArrivalTime=0;
 
-	switch (imp)
+	switch (importance)
 	{
 	case Critical:
 		cleanerStaffArrivalTime = 10;

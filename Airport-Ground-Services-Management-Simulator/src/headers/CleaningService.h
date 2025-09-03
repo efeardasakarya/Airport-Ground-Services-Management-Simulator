@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -12,7 +12,7 @@
 class CleaningService :public GroundService
 {
 public:
-
+	// Importance situation enum for emergency cleaning
 	enum Importance {
 		Critical,    // 0
 		Threat,  // 1
@@ -25,7 +25,7 @@ public:
 
 	
 
-	int EmergencyCleaning(const std::string& flightNumber, Importance imp);  
+	int EmergencyCleaning(const std::string& flightNumber, Importance importance);  
 
 
 	//Getters

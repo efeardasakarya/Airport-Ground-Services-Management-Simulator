@@ -1,39 +1,33 @@
-#pragma once
+﻿#pragma once
 
-#include <map>
+#include <memory>
 
-#include "spdlog/spdlog.h"
+// Fwd decls
+class GlobalLogger;
+class ServiceHandler;
+class Flight;
 
-#include "Flight.h"
-#include "FlightRecordsManager.h"
-#include "GlobalLogger.h"
-#include "Service.h"
-#include "ServiceHandler.h"
-
-
-
-class TakeoffHandler
-{
-private:
-
-	FlightRecordsManager flightRecordManager;
-
-	ServiceHandler serviceHandler;
-
-	Flight* takeoffFlight = nullptr;
-
-	int remainTakeoffTime = 10;
-
-	bool takeoffLoop = true;
-
-	GlobalLogger* logger;
-
-
-
+class TakeoffHandler {
 public:
+    
+    TakeoffHandler();
+    ~TakeoffHandler();
 
-	TakeoffHandler();
+    // Pick a flight from groundedFlights queue , process the services , takeoff the flight and release the runway
+    void takeoffProcess();
 
-	void takeoffProcess(std::map<std::string, Flight>& flightRecords);
+private:
+    // Give a duration for complete service
+    static int durationForLuggageTask(int taskEnum);   // saniye
+    static int durationForCleaningTask(int taskEnum);  // saniye
+    static int durationForFuelTask(int taskEnum);      // saniye
+
+    // Process the service
+    void runLuggageTasks(const std::shared_ptr<Flight>& flight);
+    void runCleaningTasks(const std::shared_ptr<Flight>& flight);
+    void runFuelTasks(const std::shared_ptr<Flight>& flight);
+
+private:
+    GlobalLogger* logger = nullptr ;
+    ServiceHandler* serviceHandler = nullptr;
 };
-

@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <string>
-#include <stdexcept> // runtime_error
-#include <filesystem> // C++17 
+#include <stdexcept> 
+#include <filesystem>  
 #include <random>
 
 #include "GlobalLogger.h"
@@ -15,66 +15,50 @@
 GlobalLogger* globalLogger = GlobalLogger::getInstance();
 
 
-
+//Constructor
 FlightRecordsManager::FlightRecordsManager()
 {
 
 
 };
 
+//Destrucotr
+FlightRecordsManager::~FlightRecordsManager() = default;
 
-
+ 
 inline void FlightRecordsManager::trimCR(std::string& line)
 {
+	//Cut the \r part end of the file windows automatically added. It could cause errors.
 	if (!line.empty() && line.back() == '\r')
 	{
 		line.pop_back();
 	}
 }
 
-
-
-FlightRecordsManager::~FlightRecordsManager() = default;
-
-
 bool FlightRecordsManager::checkFile(const std::string& fileName)
 {
-
-
+	//Check if a file with the given name exists
 	return std::filesystem::exists(fileName);
-
-
 } // Checking fucntion before load 
-
-
 
 std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 {
-
 	try
 	{
-
 		std::ifstream file;  //open file on reading mode
 		file.exceptions(std::ifstream::badbit); // check the file. If don't open throw an exception
 		file.open(fileName);
-		return file; //açılan dosyayı döndür
-
+		return file; //return opened file 
 	}
 
 	catch (const std::ios_base::failure& fail)
 	{
 		//  Add logging here
 		globalLogger->printError("The file cannot be opened; it may be corrupted or deleted.");
-
 		return std::ifstream(); // return null ifstream reference
 	}
 
-
-
-
 }
-
-
 
 std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::ifstream& file, std::map<std::string, Flight>& flights)
 {
@@ -87,14 +71,12 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 	std::string airLine;
 	std::string landingTime;
 
-	std::istringstream flightInfos; // We create istringstream object in here just once. Don't create in loop
-	// That's better for performance
-
+	std::istringstream flightInfos; // We create istringstream object in here just once. Don't create in loop. That's better for performance
+	
 	//Continue from second line
 	while (std::getline(file, line))
 	{
 		if (line.empty()) continue; // if line is empty skip it
-
 
 		flightInfos.clear();     //delete previous line from istream and give another line.
 		flightInfos.str(line);   //So you don't have to create istringstream object again and again
@@ -102,12 +84,14 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 	   //can cause performance problems
 
 
-
-
+		//Get line until ','
 		std::getline(flightInfos, flightNumber, ',');
+		//Get line until other ','
 		std::getline(flightInfos, airLine, ',');
+		//Get line until other ','
 		std::getline(flightInfos, landingTime, ',');
 
+		//Trim the '\n'
 		trimCR(flightNumber);
 		trimCR(airLine);
 		trimCR(landingTime);
@@ -118,11 +102,7 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 
 		// emplace back create the object and add to the vector. Better performance than push.back()
 		flights.try_emplace(flightNumber, flightNumber, airLine, landingTime);
-		// try_emplace( std::string , Flight) = flightNumber= std:: string  flightNumber, airLine, landingTime = Flight)
-
-		
-
-
+		// try_emplace( std::string , Flight)  -->  | flightNumber= std:: string | flightNumber, airLine, landingTime = Flight)
 	}
 
 	return flights;
@@ -131,54 +111,47 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 
 void FlightRecordsManager::printFlights(const std::map<std::string, Flight>& flights)
 {
-	for (const auto& [_ , value] : flights)
+	//Log all recorded flight at start to console
+	// Get flights to auto as flightNumber, airLine and landingTime
+	for (const auto& [key , value] : flights)
 	{
-
-
 		globalLogger->printInfo(value.getFlightNumber() + "|" + value.getAirLine() + "|" + value.getLandingTime());
-
 	}
 }
 
 std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
 {
-
-
-
 	if (checkFile(fileName))
 	{
-
-
-
 		std::ifstream flightRecords = loadFile(fileName);
 		globalLogger->printInfo("File is ready to load");
 
-
+		//Continue if file has been loaded
 		if (flightRecords.is_open())
 		{
 
 			globalLogger->printInfo("File loaded. Please check the console for flight informations");
 
+			// Add flight object to a local map and print
 			std::map<std::string, Flight>& local = createFlightObjects(flightRecords, flights); // keep flight records on a local
 
 			printFlights(flights);
 
+			// Give map as value out to the function for landing,services and takingoff
 			return local;
 
-
 		}
-
-
 
 	}
 	else
 	{
+		// If file doesn't at the path. Fail 
 
 		std::filesystem::path relpath(fileName);
 		std::filesystem::path absPath = std::filesystem::absolute(relpath);
 
 		globalLogger->printError("File not found. Please check:" + absPath.string());
-
+		return;
 	}
 
 

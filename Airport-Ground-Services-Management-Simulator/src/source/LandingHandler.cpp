@@ -1,122 +1,93 @@
 ﻿#include "LandingHandler.h"
+#include "ServiceHandler.h"
+#include "GlobalLogger.h"
+#include "Flight.h"
+
 #include <random>
+#include <thread>
+#include <chrono>
+#include <memory>
 
+// Use variables as local for prevent data races. Every thread uses his variables
 
- // Random number generator for better real life simulation by landing duration
-int LandingHandler::randomNumberGenerator(int i, int j)
-{
-	static thread_local std::mt19937 rng{ std::random_device{}() };
-	return std::uniform_int_distribution<int>(i, j)(rng);
-}
-
-
-
-
-//Defined local variables because prevent the conflicts between threads
-thread_local std::optional<std::map<std::string, Flight>::node_type> localNode;
+thread_local std::optional<std::map<std::string, Flight>::node_type> localNode; // Keep one flightNumber and Flight from flightRecords map
 thread_local Flight* localFlight = nullptr;
-thread_local int localRemainLandTime = 0;
+thread_local int localRemainLandTime = 0; // Counter for landing 
 
-// Mutex for serviceHandler.
-static std::mutex serviceGate; 
-
-
-//CONSTRUCTOR. And create logger at the begining
 LandingHandler::LandingHandler()
 {
 	logger = GlobalLogger::getInstance();
+	serviceHandler = ServiceHandler::getInstance();
+}
+
+LandingHandler::~LandingHandler()
+{
+
+}
+
+int LandingHandler::randomNumberGenerator(int minimum, int maximum)
+{
+	static thread_local std::mt19937 range{ std::random_device{}() };
+	return std::uniform_int_distribution<int>(minimum, maximum)(range);
 }
 
 void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords)
 {
-	
-	while (true)
+	// 1) Get flight to node from flightRecords map and initial landing
 	{
-		//  The part locked with mutex for thread-safe
+		std::scoped_lock lock(refLock); // mutex for prevent data-race
+		if (!localNode)
 		{
-			// Use unique lock for unlock after
-			std::unique_lock<std::mutex> lock(refLock);
-
-			// if Flight object is null , this part start work and give object from flightRecords
-			if (!localNode)
+			if (!flightRecords.empty()) // 
 			{
-				// Get new flight if flightRecords not empty
-				if (!flightRecords.empty())
-				{
-					localNode.emplace(flightRecords.extract(flightRecords.begin()));	//Extract and give the Flight to  a node for prevent data-race and avoid copying
-					localFlight = &localNode->mapped();									   
-					
-					localRemainLandTime = randomNumberGenerator(6, 13); // Give random remain time between 6-13 
-				}
+				// Get first element to node from map
+				localNode.emplace(flightRecords.extract(flightRecords.begin()));
+				localFlight = &localNode->mapped();
 
-				//  Flights are ended if records file is empty. Finish the landingHandler function 
-				else
-				{
-					lock.unlock(); // Unlock the lock for logging. Two locks could make a deadlock
-
-					logger->printInfo("Ucus kayit listesi bos. İnis sistemi beklemede");
-
-					return;
-
-
-				}
-
+				// Pick a number between 4 and 30 and give to remainLandTime
+				localRemainLandTime = randomNumberGenerator(4, 30);
+				logger->important(localFlight->getFlightNumber() + " ---> landing started.");
 			}
-
-		}
-
-
-		// Uçak indiğinde logger ile yazı yazdır ve servive handleri çalıştır. Loggeri gecikme ve deadlockun önüne geçmemek adına kilit dışında kullanıyoruz.
-		if (localRemainLandTime == 0)
-		{
-
-			logger->important("Flight " + localFlight->getFlightNumber() + " has landed");
-			logger->lockInput();
-			// DİKKAT: serviceHandler thread-safe olmalı; içeride kilit alma düzenini kontrol et
-
-
-			// === KAPI: Tek-thread erişim ===
+			else
 			{
-				std::scoped_lock gateLock(serviceGate);
-
-				serviceHandler.serviceHandler(localFlight, true);
-
+				return;
 			}
-
-
-			// Bu thread'in durumunu sıfırla (diğer thread'leri etkilemez)
-			{
-				std::scoped_lock lock(refLock);
-				localNode.reset();
-				localFlight = nullptr;
-			}
-
-
-
-			return;
 		}
-
-
-		// Eğer süre bitmediyse uçağın inmesi için geri sayımı yazdır. Loggeri gecikme ve deadklockun önüne geçmek adına kilit dışında kullanıyoruz
-		else
-		{
-			logger->printInfo("Flight " + localFlight->getFlightNumber() + " will land in " + std::to_string(localRemainLandTime) + " seconds");
-			--localRemainLandTime;
-		}
-
-
-		std::this_thread::sleep_for(std::chrono::seconds(1)); // her saniye 1 kez bu döngüyü çevir
-
-
-
-
 	}
 
+	// 2) Simulate Landign
+	while (localRemainLandTime > 0)
+	{
+		// Reduce land time 1 every seconds. 
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		--localRemainLandTime;  // --operator -> use value first and decrement later
+	}
+	// Log when fligt landed
+	logger->important(localFlight->getFlightNumber() + " ---> landing completed.");
+
+	// 3) Lock logger while getting input. Mute and ignore infos. Add important logs to queue and print after get input
+	serviceHandler->serviceHandler(localFlight);
+
+	// 4) Use smart pointer for hold the flight safe using shared_ptr.
+	//    Move Flight to the shared_ptr groundedFlights by move from node. 
+	std::shared_ptr<Flight> groundedFlight;
+	{
+		Flight moved = std::move(localNode->mapped());
+		groundedFlight = std::make_shared<Flight>(std::move(moved));
+	}
+	// push groundedFlight to Grounded Flights inside the service handler
+	serviceHandler->enqueueGroundedFlight(std::move(groundedFlight));
+
+	// 5) Clear the local elements of the thread
+	{
+		std::scoped_lock lock(refLock);
+		localNode.reset();
+		localFlight = nullptr;
+		localRemainLandTime = 0;
+	}
 }
 
-
-int LandingHandler::hasWork(std::map<std::string, Flight>& flightRecords)
-{
+int LandingHandler::hasWork(std::map<std::string, Flight>& flightRecords) {
 	std::scoped_lock lock(refLock);
-	return flightRecords.size();
+	return static_cast<int>(flightRecords.size());
 }

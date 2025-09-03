@@ -1,66 +1,28 @@
 ﻿#pragma once
 #include <map>
-#include <thread>
-#include <mutex> 
+#include <string>
 #include <optional>
-#include <chrono>
+#include <mutex>
 
+// İmplementations for forward declaration
+class Flight;
+class GlobalLogger;
+class ServiceHandler;
 
-#include "spdlog/spdlog.h"
-
-#include "Flight.h"
-#include "FlightRecordsManager.h"
-#include "GlobalLogger.h"
-#include "Service.h" 
-#include "ServiceHandler.h"
-
-
-
-
-class LandingHandler
-{
-
-
+class LandingHandler {
 public:
+    LandingHandler();
+    ~LandingHandler();
 
-	LandingHandler();
-
-	void landingProcess(std::map<std::string, Flight>& flightRecords);
-
-	int hasWork(std::map<std::string, Flight>& flightRecords);
+    void landingProcess(std::map<std::string, Flight>& flightRecords);
+    int  hasWork(std::map<std::string, Flight>& flightRecords);
 
 private:
+    static int randomNumberGenerator(int minimum, int maximum); // EXAMPLE randomNumberGenerator(1,10) -> returns value between 1 and 10
 
-	FlightRecordsManager flightRecordManager;
+    // Prevent data race on flightRecords
+    std::mutex refLock;
 
-	ServiceHandler serviceHandler;
-
-	//Flight* landingFlight = nullptr;
-
-	//std::optional<std::map<std::string, Flight>::node_type> currentNode;
-
-	//int remainLandTime = 10;
-
-	bool landingLoop = true;
-
-	GlobalLogger* logger;
-
-	std::mutex refLock;
-	std::mutex timeLock;
-
-	int randomNumberGenerator(int i, int  j);
-
-protected:
-
-	void AskUserInput(Flight* f);
-
+    GlobalLogger* logger = nullptr;
+    ServiceHandler* serviceHandler = nullptr;
 };
-
-
-
-
-
-
-
-
-

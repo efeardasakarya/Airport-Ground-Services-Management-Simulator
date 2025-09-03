@@ -5,6 +5,7 @@
 
 Flight::Flight(const std::string& FlightNumber, const std::string& AirLine, const std::string& LandingTime)
 {
+	// Give essential Flight informations in constructor. Essentials will get from file
 	flightNumber = FlightNumber;
 	airLine = AirLine;
 	landignTime = LandingTime;
@@ -12,11 +13,22 @@ Flight::Flight(const std::string& FlightNumber, const std::string& AirLine, cons
 
 }
 
-// Get Methods 
-const std::string& Flight::getFlightNumber() const { return flightNumber; }
-const std::string& Flight::getAirLine() const { return airLine; }
-const std::string& Flight::getLandingTime() const { return landignTime; }
+// Get Methods ( Const at beggining and end means this functions only readable
+const std::string& Flight::getFlightNumber() const 
+{ 
+	return flightNumber; 
+}
+const std::string& Flight::getAirLine() const 
+{ 
+	return airLine; 
+}
+const std::string& Flight::getLandingTime() const 
+{
+	return landignTime; 
+}
+
 //Task Getters
+
 const std::unordered_set<Service> Flight::getDemandingServices() const
 {
 	return demandingServices;
@@ -24,7 +36,6 @@ const std::unordered_set<Service> Flight::getDemandingServices() const
 const std::unordered_set<FuelTasks> Flight::getFuelTasks() const
 {
 	return fuelTasks;
-
 }
 const std::unordered_set<LuggageTasks> Flight::getLuggageTasks() const
 {
@@ -36,10 +47,19 @@ const std::unordered_set<CleaningTasks> Flight::getCleaningTasks() const
 }
 
 
-// Set Methods
-void Flight::setFlightNumber(const std::string& newFlightNumber) { flightNumber = newFlightNumber; }
-void Flight::setAirLine(const std::string& newAirLine) { airLine = newAirLine; }
-void Flight::setLandingTime(const std::string& newLandingTime) { landignTime = newLandingTime; }
+// Change flights informations if necessary
+void Flight::setFlightNumber(const std::string& newFlightNumber) 
+{ 
+	flightNumber = newFlightNumber; 
+}
+void Flight::setAirLine(const std::string& newAirLine) 
+{ 
+	airLine = newAirLine; 
+}
+void Flight::setLandingTime(const std::string& newLandingTime) 
+{ 
+	landignTime = newLandingTime; 
+}
 
 
 

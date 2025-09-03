@@ -57,6 +57,9 @@
     <ClCompile Include="src\source\TakeoffHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\source\ThreadHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Flight.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\TakeoffHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\ThreadHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

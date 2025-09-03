@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <sstream>
 #include <fstream>
@@ -14,6 +14,7 @@ class FlightRecordsManager
 
 
 private:
+	// Storage for flight recprds from flight_program.csv file
 	std::map< std::string ,Flight > flights;
 
 	std::ifstream loadFile(const std::string& fileName);
@@ -34,7 +35,7 @@ public:
 FlightRecordsManager();
 
 
-~FlightRecordsManager();    // Program sona geldiðinde otomatik olarak çalýþýr
+~FlightRecordsManager();    // Program sona geldiÄŸinde otomatik olarak Ã§alÄ±ÅŸÄ±r
 
 std::map<std::string, Flight>& InitializeFlightRecordsManager(const std::string& fileName);
 
