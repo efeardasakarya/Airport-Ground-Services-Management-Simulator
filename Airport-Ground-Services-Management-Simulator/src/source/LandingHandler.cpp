@@ -87,7 +87,8 @@ void LandingHandler::landingProcess(std::map<std::string, Flight>& flightRecords
 	}
 }
 
-int LandingHandler::hasWork(std::map<std::string, Flight>& flightRecords) {
+int LandingHandler::hasWork(std::map<std::string, Flight>& flightRecords) 
+{
 	std::scoped_lock lock(refLock);
 	return static_cast<int>(flightRecords.size());
 }
