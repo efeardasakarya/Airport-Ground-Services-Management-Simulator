@@ -121,6 +121,8 @@ void FlightRecordsManager::printFlights(const std::map<std::string, Flight>& fli
 
 std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsManager(const std::string& fileName)
 {
+	static std::map<std::string, Flight> EMPTY;
+
 	if (checkFile(fileName))
 	{
 		std::ifstream flightRecords = loadFile(fileName);
@@ -141,6 +143,11 @@ std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsMana
 			return local;
 
 		}
+		else
+		{
+			globalLogger->printError(std::string("File cannot be opened: ") + fileName);
+			return EMPTY; 
+		}
 
 	}
 	else
@@ -151,7 +158,7 @@ std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsMana
 		std::filesystem::path absPath = std::filesystem::absolute(relpath);
 
 		globalLogger->printError("File not found. Please check:" + absPath.string());
-		return;
+		return EMPTY;
 	}
 
 

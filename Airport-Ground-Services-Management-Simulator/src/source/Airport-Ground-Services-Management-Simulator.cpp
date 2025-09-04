@@ -39,6 +39,6 @@ int main() {
     }
     else
     {
-        return;
+        return 0;
     }
 }
