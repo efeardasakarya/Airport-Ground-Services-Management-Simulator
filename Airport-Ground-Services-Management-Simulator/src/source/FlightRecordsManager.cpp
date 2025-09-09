@@ -1,5 +1,4 @@
-﻿
-#include "FlightRecordsManager.h"
+﻿#include "FlightRecordsManager.h"
 
 #include <iostream>
 #include <string>
@@ -9,11 +8,7 @@
 
 #include "GlobalLogger.h"
 
-
-
-
 GlobalLogger* globalLogger = GlobalLogger::getInstance();
-
 
 //Constructor
 FlightRecordsManager::FlightRecordsManager()
@@ -25,10 +20,10 @@ FlightRecordsManager::FlightRecordsManager()
 //Destrucotr
 FlightRecordsManager::~FlightRecordsManager() = default;
 
- 
+//Cut the \r part end of the file windows automatically added. It could cause errors.
 inline void FlightRecordsManager::trimCR(std::string& line)
 {
-	//Cut the \r part end of the file windows automatically added. It could cause errors.
+
 	if (!line.empty() && line.back() == '\r')
 	{
 		line.pop_back();
@@ -45,10 +40,14 @@ std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 {
 	try
 	{
-		std::ifstream file;  //open file on reading mode
-		file.exceptions(std::ifstream::badbit); // check the file. If don't open throw an exception
+		//open file on reading mode
+		std::ifstream file;
+
+		// check the file. If don't open throw an exception
+		file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 		file.open(fileName);
-		return file; //return opened file 
+		//return opened file 
+		return file;
 	}
 
 	catch (const std::ios_base::failure& fail)
@@ -64,15 +63,19 @@ std::map<std::string, Flight>& FlightRecordsManager::createFlightObjects(std::if
 {
 	//if first line is empty kill the function and skip the header in .cvs
 	std::string line;
-	if (!std::getline(file, line)) return flights;
+	if (!std::getline(file, line))
+	{
+		return flights;
+	}
 
 	//Local Variables
 	std::string flightNumber;
 	std::string airLine;
 	std::string landingTime;
 
-	std::istringstream flightInfos; // We create istringstream object in here just once. Don't create in loop. That's better for performance
-	
+	// We create istringstream object in here just once. Don't create in loop. That's better for performance
+	std::istringstream flightInfos;
+
 	//Continue from second line
 	while (std::getline(file, line))
 	{
@@ -113,7 +116,7 @@ void FlightRecordsManager::printFlights(const std::map<std::string, Flight>& fli
 {
 	//Log all recorded flight at start to console
 	// Get flights to auto as flightNumber, airLine and landingTime
-	for (const auto& [key , value] : flights)
+	for (const auto& [key, value] : flights)
 	{
 		globalLogger->printInfo(value.getFlightNumber() + "|" + value.getAirLine() + "|" + value.getLandingTime());
 	}
@@ -123,14 +126,15 @@ std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsMana
 {
 	static std::map<std::string, Flight> EMPTY;
 
+	// Check file exist in path or not. Start the process if it is 
 	if (checkFile(fileName))
 	{
 		std::ifstream flightRecords = loadFile(fileName);
-		globalLogger->printInfo("File is ready to load");
 
 		//Continue if file has been loaded
 		if (flightRecords.is_open())
 		{
+			globalLogger->printInfo("File is ready to load");
 
 			globalLogger->printInfo("File loaded. Please check the console for flight informations");
 
@@ -146,10 +150,12 @@ std::map<std::string, Flight>& FlightRecordsManager::InitializeFlightRecordsMana
 		else
 		{
 			globalLogger->printError(std::string("File cannot be opened: ") + fileName);
-			return EMPTY; 
+			return EMPTY;
 		}
 
 	}
+
+	// If file don't exist in path.
 	else
 	{
 		// If file doesn't at the path. Fail 

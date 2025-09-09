@@ -1,16 +1,13 @@
-#include "FuelService.h"
+﻿#include "FuelService.h"
 
-
-
-FuelService::FuelService(std::map<int, std::string> staffList, int staffs)
-	: GroundService(std::move(staffList), staffs)
+FuelService::FuelService(std::map<int, std::string> staffList, int staffs) : GroundService(std::move(staffList), staffs)
 {
 
 }
 
 
 //getters
-const int& FuelService::getStaffs()
+int FuelService::getStaffs()
 {
 	return staffs;
 }
@@ -21,13 +18,13 @@ const std::string& FuelService::getStaffNames(int staffNumber)
 }
 
 //setters
-void FuelService::setStafs(int StaffNumber)
+void FuelService::setStaffs(int StaffNumber)
 {
 	staffs = StaffNumber;
 	
 }
 
-void FuelService::addStaffName(std::string& name, int staffNumber)
+void FuelService::addStaffName(const std::string& name, int staffNumber)
 {
 	staffList[staffNumber] = name;
 }

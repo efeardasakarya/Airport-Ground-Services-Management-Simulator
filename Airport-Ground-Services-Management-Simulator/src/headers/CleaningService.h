@@ -23,30 +23,30 @@ public:
 
 	CleaningService(std::map<int, std::string> staffList, int staffs);
 
-	
 
-	int EmergencyCleaning(const std::string& flightNumber, Importance importance);  
+
+	int EmergencyCleaning(const std::string& flightNumber, Importance importance);
 
 
 	//Getters
-	const int& getStaffs();
-	std::string& getStaffNames(int staffNumber);
-	const int& getCleaningTime();
-	
+	int getStaffs();
+	const std::string& getStaffNames(int staffNumber);
+	int getCleaningTime();
+
 
 	//Setters
-	void setStafs(int StaffNumber);
-	void addStaffName(std::string& name , int staffNumber);
+	void setStaffs(int StaffNumber);
+	void addStaffName(const std::string& name, int staffNumber);
 	void removeStaffName(int staffNumber);
 	void setCleaningTime(int cleaningTime);
 
-	
+
 
 
 private:
 
-	
-	int cleaningTime=0;
+
+	int cleaningTime = 0;
 
 
 

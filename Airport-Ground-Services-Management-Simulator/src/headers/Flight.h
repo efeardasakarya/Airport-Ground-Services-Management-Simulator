@@ -15,7 +15,7 @@ class Flight
 private:
 	std::string flightNumber;
 	std::string airLine;
-	std::string landignTime;
+	std::string landingTime;
 
 	std::unordered_set<Service>demandingServices;
 	std::unordered_set<FuelTasks>fuelTasks;
@@ -51,7 +51,7 @@ public:
 	void setLandingTime(const std::string& newLandingTime);
 
 
-
+	// Override functions for addDemandingServices and removeDemandingServices. Called by task type (clenaing , fuel , luggage)
 	void addDemandingServices(CleaningTasks t);
 	void addDemandingServices(FuelTasks t);
 	void addDemandingServices(LuggageTasks t);

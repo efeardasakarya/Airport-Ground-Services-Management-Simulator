@@ -2,7 +2,7 @@
 #include "ServiceHandler.h"
 #include "GlobalLogger.h"
 #include "Flight.h"
-#include "Service.h"                           // enumlar burada
+#include "Service.h"        
 #include "magic_enum/magic_enum.hpp"
 
 #include <thread>
@@ -134,7 +134,8 @@ void TakeoffHandler::runFuelTasks(const std::shared_ptr<Flight>& flight)
 }
 
 // --------- Main Flow ---------
-void TakeoffHandler::takeoffProcess() {
+void TakeoffHandler::takeoffProcess() 
+{
 	// Get one flight object from groundedFlight queue and pop. So only one thread reach that flight and other flight move to the top.
 	// FIFO. Due to pop next thread can reach next elements not always first 
 
@@ -155,7 +156,7 @@ void TakeoffHandler::takeoffProcess() {
 
 	// 3) Takeoff 
 	logger->important(flight->getFlightNumber() + " ---> all tasks have been completed.");
-	logger->important(flight->getFlightNumber() + " ---> taking off.");
+	logger->important(flight->getFlightNumber() + " ---> taking off."); 
 
 	// 4) Release runway for next flights
 	serviceHandler->releaseRunway();

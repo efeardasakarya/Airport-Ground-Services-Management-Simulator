@@ -32,7 +32,9 @@ public:
 	std::shared_ptr<Flight> popGroundedFlight(); // Get the first element of the groundedFlights for add service.
 
 	// Eski kodla uyumluluk için: input sırasında logger kilidi (isimini koruyorum)
-	void serviceHandler(Flight* flight);
+	void serviceHandler(const std::shared_ptr<Flight>& flight); 
+
+	
 
 private:
 	ServiceHandler();

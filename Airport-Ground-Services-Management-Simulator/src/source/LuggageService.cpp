@@ -1,14 +1,11 @@
-#include "LuggageService.h"
+﻿#include "LuggageService.h"
 
-
-//
-LuggageService::LuggageService(std::map<int, std::string> staffList, int staffs)
-	: GroundService(std::move(staffList), staffs)
+LuggageService::LuggageService(std::map<int, std::string> staffList, int staffs) : GroundService(std::move(staffList), staffs)
 {
 
 }
 
-const int& LuggageService::getStaffs()
+int LuggageService::getStaffs()
 {
 	return staffs;
 }
@@ -19,13 +16,13 @@ const std::string& LuggageService::getStaffNames(int staffNumber)
 }
 
 //setters
-void LuggageService::setStafs(int StaffNumber)
+void LuggageService::setStaffs(int StaffNumber)
 {
 	staffs = StaffNumber;
 
 }
 
-void LuggageService::addStaffName(std::string& name, int staffNumber)
+void LuggageService::addStaffName(const std::string& name, int staffNumber)
 {
 	staffList[staffNumber] = name;
 }
@@ -42,7 +39,7 @@ void LuggageService::seperateLuggagesToPlane(float luggageWeight)
 		lightLuggageCounter++;
 	}
 
-	else if (luggageWeight > 9)
+	else if (luggageWeight < 9)
 	{
 		midLuggageCounter++;
 	}
@@ -62,7 +59,7 @@ void LuggageService::seperateLuggagesFromPlane(float luggageWeight)
 		lightLuggageCounter++;
 	}
 
-	else if (luggageWeight > 9)
+	else if (luggageWeight < 9)
 	{
 		midLuggageCounter++;
 	}
@@ -80,4 +77,3 @@ bool LuggageService::checkBaggage()
 
 	}
 }
-

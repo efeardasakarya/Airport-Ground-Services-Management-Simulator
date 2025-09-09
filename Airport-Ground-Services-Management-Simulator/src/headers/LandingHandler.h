@@ -14,8 +14,8 @@ public:
     LandingHandler();
     ~LandingHandler();
 
-    void landingProcess(std::map<std::string, Flight>& flightRecords);
-    int  hasWork(std::map<std::string, Flight>& flightRecords);
+    void landingProcess(Flight landingFlight);
+    
 
 private:
     static int randomNumberGenerator(int minimum, int maximum); // EXAMPLE randomNumberGenerator(1,10) -> returns value between 1 and 10
@@ -25,4 +25,6 @@ private:
 
     GlobalLogger* logger = nullptr;
     ServiceHandler* serviceHandler = nullptr;
+
+   
 };

@@ -1,18 +1,22 @@
 ﻿#include "ServiceHandler.h"
-#include "GlobalLogger.h"
-#include "Flight.h"
-#include "Service.h"
 
 #include <iostream>
 #include <string>
 #include <utility>
 #include <cctype>
 
+#include "GlobalLogger.h"
+#include "Flight.h"
+#include "Service.h"
+
+
+
 
 // Constructor
 ServiceHandler::ServiceHandler()
 {
 	logger = GlobalLogger::getInstance();
+
 }
 //Destructor
 ServiceHandler::~ServiceHandler() = default;
@@ -23,6 +27,7 @@ bool ServiceHandler::tryBookRunway()
 {
 	// Get number of available runways
 	int currentRunways = availableRunway.load(std::memory_order_relaxed);
+
 	while (currentRunways > 0) // Loop while at least one runway is available 
 	{
 		// Compare values load before loop and current. If same decrease currentRunways 1 ane update the memory
@@ -135,46 +140,55 @@ static int askInt(const std::string& message, int minimum, int maximum)
 	}
 }
 
-void ServiceHandler::serviceHandler(Flight* landingFlight)
+void ServiceHandler::serviceHandler(const std::shared_ptr<Flight>& flight)
 {
-	if (!landingFlight) return;
+	if (flight == nullptr) return;
 
 	// Only one thread can get input from user
 	std::unique_lock<std::mutex> inputLock(userInputMtx);
+	 
+	
 
 	// Mute and ignore info messages , add queue to important messages and print later
 	logger->lockInput();
 
-	std::cout << "\n=== Ground Service Planner for flight: " << landingFlight->getFlightNumber() << " ===\n";
+	std::cout << "\n=== Ground Service Planner for flight: " << flight->getFlightNumber() << " ===\n";
 
 	while (true)
 	{
 		// If user says no end break loop 
-		if (!askYesNo("Do you want add/remove service to " + landingFlight->getFlightNumber()))
+		if (!askYesNo("Do you want add/remove service to " + flight->getFlightNumber()))
 		{
+			enqueueGroundedFlight(flight);
+			
 			break;
 		}
 		// If user says yes continue submenu
-		// 
-		std::cout << "Servis Grubu Sec:\n"
-			<< "  0) Bagaj (Luggage)\n"
-			<< "  1) Temizlik (Cleaning)\n"
-			<< "  2) Yakit (Fuel)\n";
+		std::cout << "Choose service type:\n"
+			<< "  0) Luggage\n"
+			<< "  1) Cleaning\n"
+			<< "  2) Fuel\n";
 		// give group variable to switch for which service add/remove
 		int group = askInt("Please choose Service Type ", 0, 2);
 
-		std::cout << "Islem:\n"
-			<< "  0) Ekle\n"
-			<< "  1) Cikar\n";
+		std::cout << "Add/Remove:\n"
+			<< "  0) Add\n"
+			<< "  1) Remove\n";
 		// if op equals zero that mean adding yes and add service , else 1 will remove service
 		int op = askInt("Add Service or Remove Service ? ", 0, 1);
 		bool adding = (op == 0);
 
 		switch (group)
 		{
-		case 0: this->luggageTaskHandler(landingFlight, adding);  break;
-		case 1: this->cleaningTaskHandler(landingFlight, adding); break;
-		case 2: this->fuelTaskHandler(landingFlight, adding);     break;
+		case 0: 
+			this->luggageTaskHandler(flight.get(), adding);  
+			break;
+		case 1: 
+			this->cleaningTaskHandler(flight.get(), adding); 
+			break;
+		case 2: 
+			this->fuelTaskHandler(flight.get(), adding);     
+			break;
 		default:
 			std::cout << "Gecersiz secim.\n";
 			break;
@@ -204,10 +218,10 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 	while (true)
 	{
 		std::cout
-			<< "\n[YAKIT] Secim yapin:\n"
-			<< "  0) Ucagi yakitlandir (RefuelPlane)\n"
-			<< "  1) Tanki yakitlandir (RefuelTank)\n"
-			<< "  2) Yakit tasima (TransportFuel)\n";
+			<< "\n[FUEL] Choose Fuel Service:\n"
+			<< "  0) Refuel Plane\n"
+			<< "  1) Refuel Tank\n"
+			<< "  2) TransportFuel\n";
 		// Get value between 0-2 to choose task
 		int fuelInput = askInt("Secim", 0, 2);
 
@@ -223,7 +237,7 @@ void ServiceHandler::fuelTaskHandler(Flight* landingFlight, bool adding)
 			task = FuelTasks::TransportFuel;
 			break;
 		default:
-			std::cout << "Gecersiz secim.\n";
+			std::cout << "Invalid input.\n";
 			continue;
 		}
 		break;
@@ -251,11 +265,11 @@ void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 	while (true)
 	{
 		std::cout
-			<< "\n[TEMIZLIK] Secim yapin:\n"
-			<< "  0) Gunluk (Daily)\n"
-			<< "  1) Haftalik (Weekly)\n"
-			<< "  2) Aylik (Monthly)\n"
-			<< "  3) Yillik (Yearly)\n";
+			<< "\n[CLEANING] Choose Cleaning Service:\n"
+			<< "  0) Daily\n"
+			<< "  1) Weekly\n"
+			<< "  2) Monthly\n"
+			<< "  3) Yearly\n";
 		int cleaningInput = askInt("Secim", 0, 3);
 		// Get value between 0-3 to choose task 
 		switch (cleaningInput)
@@ -273,7 +287,7 @@ void ServiceHandler::cleaningTaskHandler(Flight* landingFlight, bool adding)
 			task = CleaningTasks::Yearly;
 			break;
 		default:
-			std::cout << "Gecersiz secim.\n";
+			std::cout << "Invalid choose.\n";
 			continue;
 		}
 		break;
@@ -301,10 +315,10 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 	while (true)
 	{
 		std::cout
-			<< "\n[BAGAJ] Secim yapin:\n"
-			<< "  0) Yukle (LoadLuggage)\n"
-			<< "  1) Bosalt (UnloadLuggage)\n"
-			<< "  2) Tasima (TransportLuggage)\n";
+			<< "\n[LUGGAGE] Choose Luggage Service:\n"
+			<< "  0) Load Luggage\n"
+			<< "  1) Unload Luggage\n"
+			<< "  2) TransportLuggage\n";
 		int luggageInput = askInt("Secim", 0, 2);
 		// Get value between 0-2 to choose task
 		switch (luggageInput)
@@ -313,7 +327,7 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 		case 1: task = LuggageTasks::UnloadLuggage;     break;
 		case 2: task = LuggageTasks::TransportLuggage;  break;
 		default:
-			std::cout << "Gecersiz secim.\n";
+			std::cout << "Invalid choose.\n";
 			continue;
 		}
 		break;

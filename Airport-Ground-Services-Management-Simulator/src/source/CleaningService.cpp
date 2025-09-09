@@ -5,12 +5,12 @@
 
 CleaningService::CleaningService(std::map<int, std::string> staffList, int staffs) : GroundService(std::move(staffList), staffs)
 {
-	
+
 }
 
-int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importance importance)  // Importance enum is in the CleaningService.h
+int CleaningService::EmergencyCleaning(const std::string& flightNumber, Importance importance)  // Importance enum is in the CleaningService.h
 {
-	int cleanerStaffArrivalTime=0;
+	int cleanerStaffArrivalTime = 0;
 
 	switch (importance)
 	{
@@ -29,50 +29,42 @@ int CleaningService::EmergencyCleaning(const std::string& flightNumber , Importa
 	case Low:
 		cleanerStaffArrivalTime = 40;
 		break;
-
 	}
 	return cleanerStaffArrivalTime;
-	
+
 }
 
-
-
-
 //getters
-const int& CleaningService::getStaffs()
+int CleaningService::getStaffs()
 {
 	return staffs;
 }
 
-std::string& CleaningService::getStaffNames(int staffNumber)
+const std::string& CleaningService::getStaffNames(int staffNumber)
 {
 	return staffList.at(staffNumber);
 }
 
-const int& CleaningService::getCleaningTime()
+int CleaningService::getCleaningTime()
 {
 	return cleaningTime;
 }
 
-
-
-
-
 //Setters
-void CleaningService::setStafs(int StaffNumber)
+void CleaningService::setStaffs(int StaffNumber)
 {
 	staffs = StaffNumber;
 }
 
-void CleaningService::addStaffName(std::string& name , int staffNumber)
-	{
+void CleaningService::addStaffName(const std::string& name, int staffNumber)
+{
 	staffList[staffNumber] = name;
-	}
+}
 
 void CleaningService::removeStaffName(int staffNumber)
-	{
+{
 	staffList.erase(staffNumber);
-	}
+}
 
 void CleaningService::setCleaningTime(int cleaningTime)
 {

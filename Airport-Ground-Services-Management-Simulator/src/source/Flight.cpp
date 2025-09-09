@@ -2,15 +2,12 @@
 #include "Service.h"
 
 
-
 Flight::Flight(const std::string& FlightNumber, const std::string& AirLine, const std::string& LandingTime)
 {
 	// Give essential Flight informations in constructor. Essentials will get from file
 	flightNumber = FlightNumber;
 	airLine = AirLine;
-	landignTime = LandingTime;
-
-
+	landingTime = LandingTime;
 }
 
 // Get Methods ( Const at beggining and end means this functions only readable
@@ -24,7 +21,7 @@ const std::string& Flight::getAirLine() const
 }
 const std::string& Flight::getLandingTime() const 
 {
-	return landignTime; 
+	return landingTime; 
 }
 
 //Task Getters
@@ -52,13 +49,15 @@ void Flight::setFlightNumber(const std::string& newFlightNumber)
 { 
 	flightNumber = newFlightNumber; 
 }
+
 void Flight::setAirLine(const std::string& newAirLine) 
 { 
 	airLine = newAirLine; 
 }
+
 void Flight::setLandingTime(const std::string& newLandingTime) 
 { 
-	landignTime = newLandingTime; 
+	landingTime = newLandingTime; 
 }
 
 
@@ -67,7 +66,7 @@ void Flight::setLandingTime(const std::string& newLandingTime)
  void Flight::addDemandingServices(CleaningTasks t)  
 {
 	// sr’yi param olarak alsak da güvenli olan type’tan seti seçmek:
-	demandingServices.insert(Cleaning);
+	demandingServices.insert(Service::Cleaning);
 	cleaningTasks.insert(t);
 }
 

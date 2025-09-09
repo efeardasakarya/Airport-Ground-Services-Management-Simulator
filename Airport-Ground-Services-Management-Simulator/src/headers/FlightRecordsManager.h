@@ -9,12 +9,13 @@
 
 
 
+
 class FlightRecordsManager
 {
 
 
 private:
-	// Storage for flight recprds from flight_program.csv file
+	// Storage for flight records from flight_program.csv file
 	std::map< std::string ,Flight > flights;
 
 	std::ifstream loadFile(const std::string& fileName);
@@ -35,7 +36,7 @@ public:
 FlightRecordsManager();
 
 
-~FlightRecordsManager();    // Program sona geldiğinde otomatik olarak çalışır
+~FlightRecordsManager();    // Automatically runs when programs executed
 
 std::map<std::string, Flight>& InitializeFlightRecordsManager(const std::string& fileName);
 

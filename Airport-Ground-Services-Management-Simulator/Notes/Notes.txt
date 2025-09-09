@@ -1,0 +1,27 @@
+﻿6) Sadelik: Son halini nasıl daha basit yaparsın?
+
+Tek tip “runTasks” şablonu ile üç fonksiyonu birleştir
+runLuggageTasks, runCleaningTasks, runFuelTasks aynı yapıda. Hepsini şu generik kalıba indir:
+
+“Snapshot al” → “başlat logu” → sleep_for(duration(task)) → “bitti logu” → “remove”.
+Bunu tek bir template fonksiyona topla; grup adı (Fuel/Cleaning/Luggage) ve duration fonksiyonu parametre olsun. Böylece üç kopya yerine 1 fonksiyon. 
+
+TakeoffHandler
+
+Flight’a tek bir ‘add/remove’ kapısı bırak
+Üç overload yerine tek bir addTask(Service group, int taskCode)/removeTask(...) veya variant/std::variant ile tek imza. Böylece API yüzeyi sadeleşir. 
+
+Flight
+
+Input menülerini tek tabloda sürdür
+ServiceHandler içinde askInt + üç ayrı handler yerine:
+
+Tek bir “grup seç → görev seç” matris tablosu tut (ör. std::array),
+
+Seçimi generik applyTask(flight, group, task, adding) ile işle.
+Kodu %30-40 kısaltır, hata yüzeyini küçültür. 
+
+ServiceHandler
+
+İsimlendirmeyi düzelt ve tek tip yap
+setStafs→setStaffs, landignTime→landingTime, seperate→separate. Küçük ama okuma yükünü ciddi azaltır.
