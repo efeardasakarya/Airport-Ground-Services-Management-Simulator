@@ -44,7 +44,7 @@ std::ifstream FlightRecordsManager::loadFile(const std::string& fileName)
 		std::ifstream file;
 
 		// check the file. If don't open throw an exception
-		file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		file.exceptions( std::ifstream::badbit);
 		file.open(fileName);
 		//return opened file 
 		return file;

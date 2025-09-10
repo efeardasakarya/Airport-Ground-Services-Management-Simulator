@@ -65,17 +65,17 @@ int ServiceHandler::getAvailableRunwayCount() const
 
 // ---------- Grounded Flights Queue (thread-safe) ----------
 
-void ServiceHandler::enqueueGroundedFlight(std::shared_ptr<Flight> flight)
+bool ServiceHandler::waitAndPopOne(std::shared_ptr<Flight>& out)
 {
-	{
-		// When a flight landed. Add to a queue keep groundedFlight for add/remove service
-		std::lock_guard<std::mutex> lock(groundedMtx);
-		groundedFlights.push(std::move(flight));
-	}
-	// Wake up a takeoffHandler for process services and takingoff
-	groundedCv.notify_one();
+	std::unique_lock<std::mutex> lock(groundedMtx);
+	groundedCv.wait(lock, [&] { return !groundedFlights.empty(); });
+
+	out = groundedFlights.front();
+	groundedFlights.pop();
+	return true;
 }
 
+/*
 std::shared_ptr<Flight> ServiceHandler::popGroundedFlight()
 {
 	// When services are finished. Flight takes off and pop from groundedFlights so other flight can be used by takeoffHandler 
@@ -87,6 +87,18 @@ std::shared_ptr<Flight> ServiceHandler::popGroundedFlight()
 	groundedFlights.pop();
 	return flight;
 }
+*/
+
+void ServiceHandler::enqueueGroundedFlight(std::shared_ptr<Flight> flight)
+{
+	{
+		std::lock_guard<std::mutex> lock(groundedMtx);
+		groundedFlights.push(std::move(flight)); // Uçuş kuyrukta tutulur
+	}
+
+	groundedCv.notify_one(); // Kuyruktan uçuş almak için bekleyen bir thread’i uyandır
+}
+
 
 // ---------- Interactive service planner ----------
 

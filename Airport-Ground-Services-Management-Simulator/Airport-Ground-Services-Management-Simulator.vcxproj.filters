@@ -57,6 +57,9 @@
     <ClCompile Include="src\source\TakeoffHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\source\SimulationTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Flight.h">
@@ -92,11 +95,13 @@
     <ClInclude Include="src\headers\TakeoffHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\headers\SimulationTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\flight_program.csv">
       <Filter>Source Files\data</Filter>
     </Text>
-    <Text Include="Notes\Notes.txt" />
   </ItemGroup>
 </Project>

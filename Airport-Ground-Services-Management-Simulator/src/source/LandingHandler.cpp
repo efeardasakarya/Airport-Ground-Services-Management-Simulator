@@ -33,4 +33,6 @@ void LandingHandler::landingProcess(Flight landingFlight)
 
 	// 3) Lock logger while getting input. Mute and ignore infos. Add important logs to queue and print after get input
 	serviceHandler->serviceHandler(groundedFlight);
+
+	
 }

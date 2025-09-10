@@ -29,12 +29,13 @@ public:
 
 	// Queue keep the grounded flights after landing for service adding (thread-safe)
 	void enqueueGroundedFlight(std::shared_ptr<Flight> flight);
-	std::shared_ptr<Flight> popGroundedFlight(); // Get the first element of the groundedFlights for add service.
 
+	
 	// Eski kodla uyumluluk için: input sırasında logger kilidi (isimini koruyorum)
 	void serviceHandler(const std::shared_ptr<Flight>& flight); 
 
-	
+	bool waitAndPopOne(std::shared_ptr<Flight>& out);
+
 
 private:
 	ServiceHandler();
