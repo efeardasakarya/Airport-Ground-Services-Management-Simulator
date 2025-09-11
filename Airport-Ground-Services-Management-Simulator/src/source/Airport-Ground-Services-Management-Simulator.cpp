@@ -14,12 +14,11 @@
 #include "TakeoffHandler.h"
 #include "SimulationTime.h"
 
-constexpr int takeoffThreadCount = 2;
-
 LandingHandler landingHandler;
 TakeoffHandler takeoffHandler;
 SimulationTime* simulationTime = SimulationTime::getInstance();
 GlobalLogger* logger = GlobalLogger::getInstance();
+ServiceHandler* serviceHandler = ServiceHandler::getInstance();
 
 
 int main()
@@ -60,7 +59,7 @@ int main()
 		}
 
 		// Check available runways (Only 2 flight can land at the same time)
-		while (!flightWillLand.empty() && ServiceHandler::getInstance()->tryBookRunway())
+		while (!flightWillLand.empty() && serviceHandler->tryBookRunway())
 		{
 			// Get first waiting flight and land
 			landingHandler.landingProcess(std::move(flightWillLand.front()));
