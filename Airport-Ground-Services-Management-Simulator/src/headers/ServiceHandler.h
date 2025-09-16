@@ -27,15 +27,14 @@ public:
 	void releaseRunway();       //Increase 1 available runway counter when the plane takesoff.    
 	int  getAvailableRunwayCount() const;  // vaialble runway caount can't change inside the program. Only-read
 
-	// Queue keep the grounded flights after landing for service adding (thread-safe)
-	void enqueueGroundedFlight(std::shared_ptr<Flight> flight);
-
 	
+
 	// Eski kodla uyumluluk için: input sırasında logger kilidi (isimini koruyorum)
 	void serviceHandler(const std::shared_ptr<Flight>& flight); 
 
 	bool waitAndPopOne(std::shared_ptr<Flight>& out);
 
+	void pushGroundedFlight(const std::shared_ptr<Flight>& flight);
 
 private:
 	ServiceHandler();

@@ -1,189 +1,130 @@
 ﻿#include "TakeoffHandler.h"
 
+#include <thread>
+#include <chrono>
+#include <vector>
+#include <string>
+#include <atomic>
+
 #include "ServiceHandler.h"
 #include "GlobalLogger.h"
 #include "Flight.h"
 #include "Service.h"        
 #include "magic_enum/magic_enum.hpp"
 
-#include <thread>
-#include <chrono>
-#include <vector>
-#include <string>
-
-
 // Constructor
-TakeoffHandler::TakeoffHandler() {
+TakeoffHandler::TakeoffHandler()
+{
 	logger = GlobalLogger::getInstance();
 	serviceHandler = ServiceHandler::getInstance();
 }
+
 // Destructor
-TakeoffHandler::~TakeoffHandler() 
+TakeoffHandler::~TakeoffHandler()
 {
 	checkThreads(true);
 }
 
-// --------- Process Durations (Completely developer editeble) ---------
-int TakeoffHandler::durationForLuggageTask(int luggage)
-{
-	// Get Luggage task by index. Look Service.h for indexes
-	auto task = static_cast<LuggageTasks>(luggage);
-	// Get process duration by task
-	switch (task)
-	{
-	case LuggageTasks::LoadLuggage:
-		return 3;
-	case LuggageTasks::UnloadLuggage:
-		return 3;
-	case LuggageTasks::TransportLuggage:
-		return 2;
-	default:
-		return 0;
-	}
-}
-int TakeoffHandler::durationForCleaningTask(int cleaning)
-{   // Get cleaning task by index. Look Service.h forindex
-	auto task = static_cast<CleaningTasks>(cleaning);
-	// Get process duration by task
-	switch (task) {
-	case CleaningTasks::Daily:
-		return 2;
-	case CleaningTasks::Weekly:
-		return 3;
-	case CleaningTasks::Monthly:
-		return 4;
-	case CleaningTasks::Yearly:
-		return 5;
-	default:
-		return 0;
-	}
-}
-int TakeoffHandler::durationForFuelTask(int fuel)
-{
-	// Get fuel task by index. Look Service.h for indexes
-	auto task = static_cast<FuelTasks>(fuel);
-	// Get process duration by task
-	switch (task)
-	{
-	case FuelTasks::RefuelPlane:
-		return 4;
-	case FuelTasks::RefuelTank:
-		return 3;
-	case FuelTasks::TransportFuel:
-		return 2;
-	default:
-		return 1;
-	}
-}
-
 // --------- Processors ---------
-void TakeoffHandler::runLuggageTasks(const std::shared_ptr<Flight>& flight) 
+void TakeoffHandler::runLuggageTasks(const std::shared_ptr<Flight>& flight)
 {
-	//Get copy against data changes in while for auto working
- 	auto luggage = flight->getLuggageTasks();
-	for (auto tasks : luggage) 
-	{
-		// Get task name to a string for logging using magic enum library
-		auto name = std::string(magic_enum::enum_name(tasks));
-		// Start task process and log 
-		logger->printInfo(flight->getFlightNumber() + " ---> Luggage/" + name + " started");
-		// Wait as duration as got from durationForLuggageTask 
-		//std::this_thread::sleep_for(std::chrono::seconds(durationForLuggageTask(static_cast<int>(tasks))));
-		// When time is up finish task and log
-		logger->printInfo(flight->getFlightNumber() + " ---> Luggage/" + name + " completed");
+	auto now = SimulationTime::getInstance()->clockMinute;  // Get system clock
+	auto luggage = flight->getLuggageTasks();  
 
-		// Remove the task from flight when finished
-		flight->removeDemandingServices(tasks);
+	// Get luggage tasks from flight class
+	for (const auto& [task, endTime] : luggage)
+	{
+		auto name = std::string(magic_enum::enum_name(task));
+
+		// Complete and remove task from flight
+		if (now >= endTime)
+		{
+			logger->printInfo(flight->getFlightNumber() + " ---> Luggage/" + name + " completed");
+			flight->removeDemandingServices(task);
+		}
+
 	}
 }
 
-void TakeoffHandler::runCleaningTasks(const std::shared_ptr<Flight>& flight) 
+void TakeoffHandler::runCleaningTasks(const std::shared_ptr<Flight>& flight)
 {
-	// Get copy againt data changes while for auto working
+	auto now = SimulationTime::getInstance()->clockMinute; // Get system clock
 	auto cleaning = flight->getCleaningTasks();
-	for (auto task : cleaning) 
-	{
-		// Get task name to a string for logging using magic enum library
-		auto name = std::string(magic_enum::enum_name(task));
-		// Start task process and log
-		logger->printInfo(flight->getFlightNumber() + " ---> Cleaning/" + name + " started");
-		// Wait as duration as got from durationForCleaningTask 
-		//std::this_thread::sleep_for(std::chrono::seconds(durationForCleaningTask(static_cast<int>(task))));
-		// When time is up finish task and log
-		logger->printInfo(flight->getFlightNumber() + " ---> Cleaning/" + name + " completed");
 
-		// Remove the task from flight when finished
-		flight->removeDemandingServices(task);
+	// Get cleaning tasks from flight class
+	for (const auto& [task, endAt] : cleaning)
+	{
+		auto name = std::string(magic_enum::enum_name(task));
+		// Complete and remove task from flight
+		if (now >= endAt)
+		{
+			logger->printInfo(flight->getFlightNumber() + " ---> Cleaning/" + name + " completed ");
+			flight->removeDemandingServices(task);
+		}
+
 	}
 }
 
-void TakeoffHandler::runFuelTasks(const std::shared_ptr<Flight>& flight) 
+void TakeoffHandler::runFuelTasks(const std::shared_ptr<Flight>& flight)
 {
-	// Get copy againt data changes while for auto working
+	auto now = SimulationTime::getInstance()->clockMinute; // Get system clock
 	auto fuel = flight->getFuelTasks();
-	for (auto task : fuel) 
-	{
-		// Get task name to a string for logging using magic enum library
-		auto name = std::string(magic_enum::enum_name(task));
-		// Start task process and log
-		logger->printInfo(flight->getFlightNumber() + " ---> Fuel/" + name + " started");
-		// Wait as duration as got from durationForCleaningTask 
-		//std::this_thread::sleep_for(std::chrono::seconds(durationForFuelTask(static_cast<int>(task))));
-		// When time is up finish task and log
-		logger->printInfo(flight->getFlightNumber() + " ---> Fuel/" + name + " completed");
 
-		// Remove the task from flight when finished
-		flight->removeDemandingServices(task);
+	// Get fuel tasks from flight class
+	for (const auto& [task, endAt] : fuel)
+	{
+		auto name = std::string(magic_enum::enum_name(task));
+
+		// Complete and remove task from flight
+		if (now >= endAt) 
+		{
+			logger->printInfo(flight->getFlightNumber() + " ---> Fuel/" + name + " completed");
+			flight->removeDemandingServices(task);
+		}
+
 	}
 }
 
 // --------- Main Flow ---------
-void TakeoffHandler::takeoffProcess() 
+void TakeoffHandler::takeoffProcess()
 {
-	// Get one flight object from groundedFlight queue and pop. So only one thread reach that flight and other flight move to the top.
-	// FIFO. Due to pop next thread can reach next elements not always first 
-
 	std::shared_ptr<Flight> flight;
-	if (!serviceHandler->waitAndPopOne(flight) ) 
-	{
-		return;
-	}
 
-	if (!flight) 
-	{
-		logger->printError("popGroundedFlight() returned null flight.");
-		return;
-	}
+	if (!serviceHandler->waitAndPopOne(flight) || !flight) return;
 
-	 
-
-	logger->important(flight->getFlightNumber() + " ---> ground services started.");
-
-	// 2) Process services by lane. First handle luggages, cleaning , last fuel and flight takes off 
+	//Task processors
 	runLuggageTasks(flight);
 	runCleaningTasks(flight);
 	runFuelTasks(flight);
 
-	// 3) Takeoff 
-	logger->important(flight->getFlightNumber() + " ---> all tasks have been completed.");
-	logger->important(flight->getFlightNumber() + " ---> taking off."); 
+	// Check that all tasks are complete
+	const bool allDone =
+		flight->getDemandingServices().empty() &&
+		flight->getFuelTasks().empty() &&
+		flight->getLuggageTasks().empty() &&
+		flight->getCleaningTasks().empty();
 
-	// 4) Release runway for next flights
-	serviceHandler->releaseRunway();
+	if (allDone)
+	{
+		logger->important(flight->getFlightNumber() + " ---> all tasks have been completed.");
+		logger->important(flight->getFlightNumber() + " ---> taking off.");
+		serviceHandler->releaseRunway();
+	}
+	else 
+	{
+		// If all tasks don't complete push the flight to the queue again 
+		serviceHandler->pushGroundedFlight(flight); 
+	}
 }
-
-
-
 
 // --------- Thread Handler ---------
 void TakeoffHandler::checkThreads(bool finalize)
 {
 	std::lock_guard<std::mutex> lk(threadsMutex);
 
-
-	for (int i = 0; i < threads.size(); ) 
+	for (int i = 0; i < threads.size(); )
 	{
-		if (doneThreads[i] && doneThreads[i]->load(std::memory_order_acquire)) 
+		if (doneThreads[i] && doneThreads[i]->load(std::memory_order_acquire))
 		{
 			if (threads[i].joinable())
 			{
@@ -192,21 +133,21 @@ void TakeoffHandler::checkThreads(bool finalize)
 			threads.erase(threads.begin() + i);
 			doneThreads.erase(doneThreads.begin() + i);
 		}
-		else 
+		else
 		{
 			++i;
 		}
 	}
 
-	if (!finalize && threads.empty()) 
+	if (!finalize && threads.empty())
 	{
-		for (int k = 0; k < 2; ++k) 
+		for (int k = 0; k < 2; ++k)
 		{
 			auto flag = std::make_shared<std::atomic_bool>(false);
 			std::thread t([this, flag]()
 				{
-				this->takeoffProcess();         
-				flag->store(true, std::memory_order_release); 
+					this->takeoffProcess();
+					flag->store(true, std::memory_order_release);
 				});
 			threads.push_back(std::move(t));
 			doneThreads.push_back(std::move(flag));

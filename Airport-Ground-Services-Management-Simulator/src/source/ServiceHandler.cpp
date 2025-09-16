@@ -75,29 +75,7 @@ bool ServiceHandler::waitAndPopOne(std::shared_ptr<Flight>& out)
 	return true;
 }
 
-/*
-std::shared_ptr<Flight> ServiceHandler::popGroundedFlight()
-{
-	// When services are finished. Flight takes off and pop from groundedFlights so other flight can be used by takeoffHandler 
-	std::unique_lock<std::mutex> lock(groundedMtx);
-	// groundedCV.wait --->  if groundedFlights is not empty wake up a takeoffHandler to process services
-	groundedCv.wait(lock, [&] { return !groundedFlights.empty(); });
-	// Take the first element of the groundedFlights and copy to a flight object. After copying pop so takeoffHandler can get next flight. FIFO . First process first flight
-	auto flight = groundedFlights.front();
-	groundedFlights.pop();
-	return flight;
-}
-*/
 
-void ServiceHandler::enqueueGroundedFlight(std::shared_ptr<Flight> flight)
-{
-	{
-		std::lock_guard<std::mutex> lock(groundedMtx);
-		groundedFlights.push(std::move(flight)); // Uçuş kuyrukta tutulur
-	}
-
-	groundedCv.notify_one(); // Kuyruktan uçuş almak için bekleyen bir thread’i uyandır
-}
 
 
 // ---------- Interactive service planner ----------
@@ -171,7 +149,7 @@ void ServiceHandler::serviceHandler(const std::shared_ptr<Flight>& flight)
 		// If user says no end break loop 
 		if (!askYesNo("Do you want add/remove service to " + flight->getFlightNumber()))
 		{
-			enqueueGroundedFlight(flight);
+			pushGroundedFlight(flight);
 			
 			break;
 		}
@@ -352,4 +330,16 @@ void ServiceHandler::luggageTaskHandler(Flight* landingFlight, bool adding)
 	else {
 		landingFlight->removeDemandingServices(task);
 	}
+
+	
+}
+
+void ServiceHandler::pushGroundedFlight(const std::shared_ptr<Flight>& flight)
+{
+	if (!flight) return;
+	{
+		std::lock_guard<std::mutex> lock(groundedMtx);
+		groundedFlights.push(flight);
+	}
+	groundedCv.notify_one(); // waitAndPopOne bekliyorsa uyandır
 }

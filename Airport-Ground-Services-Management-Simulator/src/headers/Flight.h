@@ -4,8 +4,10 @@
 #include <memory>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 
 #include "Service.h"
+#include "SimulationTime.h"
 
 
 
@@ -18,11 +20,11 @@ private:
 	std::string landingTime;
 
 	std::unordered_set<Service>demandingServices;
-	std::unordered_set<FuelTasks>fuelTasks;
-	std::unordered_set<LuggageTasks>luggageTasks;
-	std::unordered_set<CleaningTasks>cleaningTasks;
+	std::unordered_map<FuelTasks, int>fuelTasks;
+	std::unordered_map<LuggageTasks , int>luggageTasks;
+	std::unordered_map<CleaningTasks, int>cleaningTasks;
 
-
+	SimulationTime* simulationTime = nullptr;
 
 public:
 
@@ -41,9 +43,9 @@ public:
 
 	//Task getters
 	const std::unordered_set<Service> getDemandingServices() const;
-	const std::unordered_set<FuelTasks> getFuelTasks() const;
-	const std::unordered_set<LuggageTasks> getLuggageTasks() const;
-	const std::unordered_set<CleaningTasks> getCleaningTasks() const;
+	const std::unordered_map<FuelTasks , int> getFuelTasks() const;
+	const std::unordered_map<LuggageTasks , int> getLuggageTasks() const;
+	const std::unordered_map<CleaningTasks , int > getCleaningTasks() const;
 
 	// Set Methods
 	void setFlightNumber(const std::string& newFlightNumber);
@@ -60,15 +62,55 @@ public:
 	void removeDemandingServices(FuelTasks t);
 	void removeDemandingServices(LuggageTasks t);
 
-
-
-
+	int durationForLuggageTask(LuggageTasks task)
+	{
+		// Get Luggage task by index. Look Service.h for indexes
+		
+		// Get process duration by task
+		switch (task)
+		{
+		case LuggageTasks::LoadLuggage:
+			return 6;
+		case LuggageTasks::UnloadLuggage:
+			return 4;
+		case LuggageTasks::TransportLuggage:
+			return 5;
+		default:
+			return 0;
+		}
+	}
+	int durationForCleaningTask(CleaningTasks task)
+	{   
+		switch (task) 
+		{
+		case CleaningTasks::Daily:
+			return 2;
+		case CleaningTasks::Weekly:
+			return 3;
+		case CleaningTasks::Monthly:
+			return 4;
+		case CleaningTasks::Yearly:
+			return 5;
+		default:
+			return 0;
+		}
+	}
+	int durationForFuelTask(FuelTasks task)
+	{
+		switch (task)
+		{
+		case FuelTasks::RefuelPlane:
+			return 6;
+		case FuelTasks::RefuelTank:
+			return 5;
+		case FuelTasks::TransportFuel:
+			return 4;
+		default:
+			return 1;
+		}
+	}
 
 protected:
-
-
-
-
 
 
 };

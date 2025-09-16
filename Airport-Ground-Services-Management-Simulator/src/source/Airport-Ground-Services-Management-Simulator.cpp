@@ -79,7 +79,7 @@ int main()
 
 			time = simulationTime->calculateTime(simulationTime->clockMinute);
 
-			std::cout << time.hour << ":" << time.minute << std::endl;
+			logger->printInfo(std::to_string(time.hour) + ":" + std::to_string(time.minute));
 
 			//delete all threads and don't create ew
 			takeoffHandler.checkThreads(true);
@@ -91,8 +91,7 @@ int main()
 
 		time = simulationTime->calculateTime(simulationTime->clockMinute);
 
-		std::cout << time.hour << ":" << time.minute << std::endl;
-
+		logger->printInfo(std::to_string(time.hour) + ":" + std::to_string(time.minute));
 		
 	}
 
